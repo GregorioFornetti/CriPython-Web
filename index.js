@@ -1,6 +1,32 @@
 
 let botao_nav_clicado
 
+// Criando os links/botoes do sub-menu cifras, que serão colocados quando o botão "cifras" for apertado.
+let botao_cesar = document.createElement('a');
+botao_cesar.innerHTML = 'Cifra de César';
+botao_cesar.className = 'texto-sub-menu';
+
+let botao_subst_simples = document.createElement('a');
+botao_subst_simples.innerHTML = 'Substituição simples';
+botao_subst_simples.className = 'texto-sub-menu';
+
+let botao_vigenere = document.createElement('a');
+botao_vigenere.innerHTML = 'Cifra de Vigenère';
+botao_vigenere.className = 'texto-sub-menu';
+
+const lista_botoes_cifra = [botao_cesar, botao_subst_simples, botao_vigenere];
+
+// Criando os links/botoes do sub-menu utilitários, que serão colocados quando o botão "utilitarios" for apertado.
+let botao_forca_bruta_cesar = document.createElement('a');
+botao_forca_bruta_cesar.innerHTML = 'Força bruta César';
+botao_forca_bruta_cesar.className = 'texto-sub-menu';
+
+let botao_adivinhador_cesar = document.createElement('a');
+botao_adivinhador_cesar.innerHTML = 'Adivinhador César';
+botao_adivinhador_cesar.className = 'texto-sub-menu';
+
+const lista_botoes_utilitarios = [botao_forca_bruta_cesar, botao_adivinhador_cesar];
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#botao-utilitarios').onclick = () => {
         if (botao_nav_clicado !== 'utilitarios') {  // Não mostrar o sub-menu caso o usuário clique duas vezes no botão cifras.
@@ -31,13 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#botao-home').onclick = () => esconder_sub_menu('home');
 
     document.querySelector('.container-sub-barra-nav').addEventListener('animationend', () => {
-        
+        if (botao_nav_clicado === 'cifras') {
+            colocar_botoes_no_sub_menu(lista_botoes_cifra)
+        }
+        else {
+            colocar_botoes_no_sub_menu(lista_botoes_utilitarios)
+        }
     })
 })
 
 
 function esconder_sub_menu(botao) {
     document.querySelector('#triang-utilitarios').style.display = 'none';
+    document.querySelector('.text-container-sub-barra-nav').innerHTML = '';
     document.querySelector('#triang-cifras').style.display = 'none';
     document.querySelector('.sub-barra-navegacao').style.display = 'none';
     botao_nav_clicado = botao
@@ -48,4 +80,13 @@ function reiniciar_animacao() {
     sub_menu_container.style.animation = 'none';
     sub_menu_container.offsetHeight;  // Reflow (recarregar o elemento para reiniciar a animação).
     sub_menu_container.style.animation = null;
+}
+
+function colocar_botoes_no_sub_menu(lista_botoes) {
+    lista_botoes.forEach((botao) => {
+        const text_container = document.querySelector('.text-container-sub-barra-nav');
+        text_container.append(botao);
+        text_container.append(document.createElement('br'));
+        text_container.append(document.createElement('br'));
+    })
 }
