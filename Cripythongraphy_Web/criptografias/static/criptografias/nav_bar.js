@@ -28,7 +28,7 @@ botao_adivinhador_cesar.className = 'texto-sub-menu';
 const lista_botoes_utilitarios = [botao_forca_bruta_cesar, botao_adivinhador_cesar];
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('#botao-utilitarios').onclick = () => {
+    document.querySelector('#botao-utilitarios').addEventListener('click', () => {
         if (botao_nav_clicado !== 'utilitarios') {  // Não mostrar o sub-menu caso o usuário clique duas vezes no botão cifras.
             esconder_sub_menu('utilitarios')
             reiniciar_animacao()
@@ -38,9 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         else {  // Caso o usuário clique duas vezes consecutivas no botão "cifras", a segunda deve esconder o sub-menu.
             esconder_sub_menu('utilitarios2')
         }
-    }
+    })
 
-    document.querySelector('#botao-cifras').onclick = () => {
+    document.querySelector('#botao-cifras').addEventListener('click', () => {
         // A mesmo padrão de esconder e mostrar o sub-menu que ocorre nas "cifras", ocorre aqui também !
         if (botao_nav_clicado !== 'cifras') {
             esconder_sub_menu('cifras')
@@ -51,10 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
             esconder_sub_menu('cifras2')
         }
+    })
+    let botao_login = document.querySelector('#botao-login')
+    if (botao_login) {
+        botao_login.addEventListener('click', () => {
+            esconder_sub_menu('login')
+            retorna_formulario_login()
+        })
     }
-
-    document.querySelector('#botao-login').onclick = () => esconder_sub_menu('login');
-    document.querySelector('#botao-home').onclick = () => esconder_sub_menu('home');
+    document.querySelector('#botao-home').addEventListener('click', () => {
+        esconder_sub_menu('home')
+    })
 
     document.querySelector('.container-sub-barra-nav').addEventListener('animationend', () => {
         if (botao_nav_clicado === 'cifras') {

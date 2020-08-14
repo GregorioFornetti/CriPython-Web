@@ -1,4 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@700&display=swap');
+@font-face {
+    font-family: 'Public Sans Bold';
+    src: url('../PublicSans-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Public Sans Light';
+    src: url('../PublicSans-Light.ttf')
+}
+
+@font-face {
+    font-family: 'Public Sans Extralight';
+    src: url('../PublicSans-ExtraLight.ttf')
+}
 
 .barra-navegacao {
     position: fixed;
@@ -14,7 +27,7 @@
     float: left;
     text-align: center;
     padding: 5px 16px;
-    font-family: 'Public Sans', sans-serif;
+    font-family: 'Public Sans Bold', sans-serif;
     border-radius: 10px;
     text-decoration: none;
     font-size: 27px;
@@ -50,6 +63,7 @@
     right: 2%;
     background-color: rgb(182, 180, 173);
     display: none;
+    z-index: 2;
 }
 
 .container-sub-barra-nav {
@@ -60,6 +74,7 @@
     animation-duration: 0.3s;
     animation-name: descendo;
     animation-fill-mode: forwards;
+    z-index: 2;
 }
 
 .container-botoes-nav {
@@ -72,11 +87,67 @@
     width: 500px;
     height: 420px;
     padding: 10px;
+    z-index: 2;
 }
 
 .texto-sub-menu {
+    font-family: 'Public Sans Bold', sans-serif;
     font-size: 22px;
-    font-family: 'Public Sans', sans-serif;
     margin-left: 10px;
-    color: rgb(64, 112, 111)
+    color: rgb(64, 112, 111);
+    z-index: 2;
+}
+
+.container-cadastro {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 460px;
+    margin-left: -230px;
+    margin-top: -100px;
+    padding: 20px;
+    background-color: rgb(182, 180, 173);
+    border-radius: 12px;
+}
+
+.container-input {
+    float: right;
+    padding-bottom: 10px;
+    margin-right: 10px;
+}
+
+.texto-cadastro-label {
+    color: rgb(100, 101, 96);
+    font-size: 22px;
+    font-family: 'Public Sans Bold', sans-serif;
+    margin-right: 10px;
+}
+
+.input-cadastro {
+    width: 330px;
+    height: 22px;
+    border: 3px solid rgb(182, 180, 173);
+    font-family: 'Public Sans Light', sans-serif;
+    font-size: 18px;
+    color: rgb(100, 101, 96);
+    border-radius: 7px;
+    transition: 0.5s;
+    outline: none;
+}
+
+.input-cadastro:focus {
+    border: 3px solid #555;
+    border-radius: 7px;
+}
+
+.submit-cadastro {
+    border: 0;
+    border-radius: 8px;
+    font-family: 'Public Sans Bold', sans-serif;
+    background-color: rgb(64, 112, 111);
+    color: white;
+    font-size: 22px;
+    color: rgb(182, 180, 173);
+    margin-left: 115px;
+    padding: 2px 30px;
 }
