@@ -31,6 +31,7 @@
     border-radius: 10px;
     text-decoration: none;
     font-size: 27px;
+    cursor: pointer;
 }
 
 .link-barra-navegacao:hover {
@@ -102,8 +103,8 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 460px;
-    margin-left: -230px;
+    width: 500px;
+    margin-left: -250px;
     margin-top: -100px;
     padding: 20px;
     background-color: rgb(182, 180, 173);
@@ -128,7 +129,7 @@
     height: 22px;
     border: 3px solid rgb(182, 180, 173);
     font-family: 'Public Sans Light', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     color: rgb(100, 101, 96);
     border-radius: 7px;
     transition: 0.5s;
@@ -136,7 +137,7 @@
 }
 
 .input-cadastro:focus {
-    border: 3px solid #555;
+    border: 3px solid rgb(140, 141, 137);
     border-radius: 7px;
 }
 
@@ -146,8 +147,13 @@
     font-family: 'Public Sans Bold', sans-serif;
     background-color: rgb(64, 112, 111);
     color: white;
-    font-size: 22px;
+    font-size: 20px;
     color: rgb(182, 180, 173);
-    margin-left: 115px;
-    padding: 2px 30px;
+    padding: 0px 30px 3.2px 30px;
+    cursor:pointer;
+    outline: none;
+}
+
+.submit-cadastro:hover {
+    background-color: rgb(96, 97, 94);
 }
