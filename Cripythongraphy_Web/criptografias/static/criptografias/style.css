@@ -13,6 +13,16 @@
     src: url('../PublicSans-ExtraLight.ttf')
 }
 
+@font-face {
+    font-family: 'Public Sans Semibold';
+    src: url('../PublicSans-SemiBold.ttf')
+}
+
+@font-face {
+    font-family: 'Public Sans Thin';
+    src: url('../PublicSans-Thin.ttf')
+}
+
 .barra-navegacao {
     position: fixed;
     width: 100%;
@@ -156,4 +166,32 @@
 
 .submit-cadastro:hover {
     background-color: rgb(96, 97, 94);
+}
+
+.container-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 30px;
+    margin-left: -250px;
+    margin-top: -175px;
+    border-radius: 12px;
+    padding: 10px 10px 6px 25px;
+    display: 'none';
+}
+
+.texto-popup {
+    font-family: 'Public Sans Bold', sans-serif;
+    font-size: 20px;
+}
+
+.botao-fechar-popup {
+    font-family: 'Public Sans Thin', sans-serif;
+    font-size: 24px;
+    padding-top: -20px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0px;
+    float: right;
 }

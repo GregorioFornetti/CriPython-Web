@@ -1,3 +1,4 @@
+
 function retorna_formulario_login() {
     let container_conteudo_pagina = document.querySelector('#textos-pagina');
     container_conteudo_pagina.innerHTML = '';
@@ -24,7 +25,6 @@ function retorna_formulario_login() {
     link_pagina_cadastrar.href = '#';
     link_pagina_cadastrar.addEventListener('click', () => {
         retorna_formulario_cadastro()
-        console.log('dasdasdasdasd')
     })
     link_pagina_cadastrar.innerHTML = 'Clique aqui';
     container_login.append(link_pagina_cadastrar)
@@ -48,6 +48,7 @@ function retorna_formulario_cadastro() {
     let formulario = document.createElement('form');
     formulario = criar_input_e_label_logins(formulario, ['usuário', 'e-mail', 'senha', 'repetir senha']);
     formulario = criar_botao_submit(formulario, 'cadastrar', '150px');
+    formulario.onsubmit = enviar_info_novo_registro;
     container_cadastro.append(formulario)
 
     container_conteudo_pagina.append(container_cadastro);
@@ -71,6 +72,7 @@ function criar_input_e_label_logins(formulario, lista_labels) {
             input_cadastro.type = 'password';
         }
         input_cadastro.className = 'input-cadastro';
+        input_cadastro.id = nome_label;
         input_container.append(input_cadastro);
 
         formulario.append(input_container);
@@ -87,4 +89,49 @@ function criar_botao_submit(formulario, nome_botao, margin_left) {
     botao_submit.className = 'submit-cadastro';
     formulario.append(botao_submit);
     return formulario
+}
+
+
+function enviar_info_novo_registro() {
+    let nome_usuario = document.querySelector('#usuário').value;
+    let e_mail = document.querySelector('#e-mail').value;
+    let senha = document.querySelector('#senha').value;
+    let confirmar_senha = document.getElementById('repetir senha').value;
+
+    let csrf_token = getCookie('csrftoken')
+    fetch('/register', {
+        method: 'POST',
+        body: JSON.stringify({
+            'nome_usuario': nome_usuario,
+            'e_mail': e_mail,
+            'senha': senha,
+            'confirmar_senha': confirmar_senha
+        }),
+        headers: {'X-CSRFToken': csrf_token}
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data.indexOf('erro') != -1) {  // Ocorreu um erro com o formulário. Mostrar a mensagem de erro em com um popup...
+            criar_popup_erro(data)
+        } else {
+            criar_popup_sucesso(data)
+        }
+    })
+}
+
+
+function getCookie(name) {  // Function from Django documentation about CSRF
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
