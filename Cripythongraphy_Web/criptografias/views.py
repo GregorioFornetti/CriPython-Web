@@ -1,19 +1,33 @@
 from django.shortcuts import render
 from django.contrib.auth import login, logout, authenticate
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.db import IntegrityError
 import json
 
 # Create your views here.
+@ensure_csrf_cookie
 def index(request):
     return render(request, 'criptografias/index.html')
 
-
+@ensure_csrf_cookie
 def login_view(request):
-    pass
+    if request.method == 'POST':
+        dados = json.loads(request.body)
 
+        nome_usuario = dados.get('nome_usuario')
+        senha = dados.get('senha')
+        if not senha or not nome_usuario:
+            return HttpResponse('erro: todos os campos precisam ser preenchidos', status=400)
+        usuario = authenticate(username=nome_usuario, password=senha)
+        if usuario:
+            login(request, usuario)
+            return HttpResponse('login realizado com sucesso', status=200)
+        else:
+            return HttpResponse('erro: usuario ou senha inválido', status=400)
 
+@ensure_csrf_cookie
 def register_view(request):
     if request.method == 'POST':
         dados = json.loads(request.body)
@@ -34,4 +48,4 @@ def register_view(request):
         return HttpResponse('usuário cadastrado com sucesso', status=200)
 
 def logout_view(request):
-    pass
+    logout(request)

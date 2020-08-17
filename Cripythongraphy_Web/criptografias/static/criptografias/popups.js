@@ -9,7 +9,7 @@ let botao_fechar_popup
 
 document.addEventListener('DOMContentLoaded', () => {
     // Salvando os elementos do popup dentro de variaveis
-    container_popup = document.querySelector('.container-popup');
+    container_popup = document.querySelector('#container-popup');
     texto_popup = document.querySelector('.texto-popup');
     botao_fechar_popup = document.querySelector('.botao-fechar-popup');
 
@@ -20,20 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 })
 
-function criar_popup_erro(mensagem) {
+function criar_popup_erro(mensagem, classe) {
     container_popup.style.display = 'block';
     container_popup.style.backgroundColor = fundo_popup_erro;
+    container_popup.className = classe;
     
-    document.querySelector('.texto-popup').innerHTML = mensagem;
+    texto_popup.innerHTML = mensagem;
     texto_popup.style.color = cor_texto_erro;
 
     botao_fechar_popup.innerHTML = 'x'
     botao_fechar_popup.style.color = cor_texto_erro;
 }
 
-function criar_popup_sucesso(mensagem) {
+function criar_popup_sucesso(mensagem, classe) {
     container_popup.style.display = 'block';
     container_popup.style.backgroundColor = fundo_popup_sucesso;
+    container_popup.className = classe;
 
     texto_popup.innerHTML = mensagem;
     texto_popup.style.color = cor_texto_sucesso;

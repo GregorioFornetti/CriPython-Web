@@ -11,6 +11,10 @@ function retorna_formulario_login() {
     formulario.style.paddingRight = '35px';
     formulario = criar_input_e_label_logins(formulario, ['usuário', 'senha']);
     formulario = criar_botao_submit(formulario, 'acessar', '115px');
+    formulario.onsubmit = () => {
+        enviar_info_login()
+        return false;
+    }
     container_login.append(formulario);
     // Criando a primeira parte do texto de redirecionamento para pagina de registrar. 
     let texto_cadastrar_1 = document.createElement('h');
@@ -21,8 +25,7 @@ function retorna_formulario_login() {
     // Criando link para a pagina de cadastro.
     let link_pagina_cadastrar = document.createElement('a');
     link_pagina_cadastrar.className = 'texto-cadastro-label';
-    link_pagina_cadastrar.style = 'margin-left: 115px; color: rgb(64, 112, 111); text-decoration: none;';
-    link_pagina_cadastrar.href = '#';
+    link_pagina_cadastrar.style = 'margin-left: 115px; color: rgb(64, 112, 111); text-decoration: none; cursor: pointer;';
     link_pagina_cadastrar.addEventListener('click', () => {
         retorna_formulario_cadastro()
     })
@@ -48,7 +51,11 @@ function retorna_formulario_cadastro() {
     let formulario = document.createElement('form');
     formulario = criar_input_e_label_logins(formulario, ['usuário', 'e-mail', 'senha', 'repetir senha']);
     formulario = criar_botao_submit(formulario, 'cadastrar', '150px');
-    formulario.onsubmit = enviar_info_novo_registro;
+    formulario.onsubmit = () => {
+        enviar_info_novo_registro()
+        return false
+    }
+
     container_cadastro.append(formulario)
 
     container_conteudo_pagina.append(container_cadastro);
@@ -98,7 +105,7 @@ function enviar_info_novo_registro() {
     let senha = document.querySelector('#senha').value;
     let confirmar_senha = document.getElementById('repetir senha').value;
 
-    let csrf_token = getCookie('csrftoken')
+    let csrftoken = getCookie('csrftoken');
     fetch('/register', {
         method: 'POST',
         body: JSON.stringify({
@@ -107,18 +114,50 @@ function enviar_info_novo_registro() {
             'senha': senha,
             'confirmar_senha': confirmar_senha
         }),
-        headers: {'X-CSRFToken': csrf_token}
+        headers: {'X-CSRFToken': csrftoken}
     })
     .then(response => response.text())
     .then(data => {
         if (data.indexOf('erro') != -1) {  // Ocorreu um erro com o formulário. Mostrar a mensagem de erro em com um popup...
-            criar_popup_erro(data)
+            criar_popup_erro(data, 'container-popup-login')
         } else {
-            criar_popup_sucesso(data)
+            criar_popup_sucesso(data, 'container-popup-login')
+            retorna_formulario_login()
         }
     })
 }
 
+function enviar_info_login() {
+    let nome_usuario = document.querySelector('#usuário').value;
+    let senha = document.querySelector('#senha').value;
+
+    let csrftoken = getCookie('csrftoken');
+    fetch('/login', {
+        method: 'POST',
+        body: JSON.stringify({
+            nome_usuario: nome_usuario,
+            senha: senha,
+        }),
+        headers: {'X-CSRFToken': csrftoken}
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data.indexOf('erro') != -1) {  // Ocorreu um erro ao logar o usuário.
+            criar_popup_erro(data, 'container-popup-login')
+        } else {
+            // Substituir o botao login pelo botão usuario (botao que leva para a pagina de perfil)
+            let botao_login = document.querySelector('#botao-login');
+            botao_login.innerHTML = nome_usuario;
+            botao_login.onclick = carregar_pagina_de_perfil;
+
+            let container_login = document.querySelector('.container-cadastro');
+            container_login.innerHTML = '';
+            container_login.style.display = 'none';
+
+            criar_popup_sucesso(data, 'container-popup-geral')
+        }
+    })
+}
 
 function getCookie(name) {  // Function from Django documentation about CSRF
     var cookieValue = null;

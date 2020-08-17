@@ -54,10 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     let botao_login = document.querySelector('#botao-login')
     if (botao_login) {
-        botao_login.addEventListener('click', () => {
-            esconder_sub_menu('login')
-            retorna_formulario_login()
-        })
+        botao_login.onclick = carregar_pagina_login
+    } else {
+        document.querySelector('#botao-usuario').onclick = carregar_pagina_de_perfil
     }
     document.querySelector('#botao-home').addEventListener('click', () => {
         esconder_sub_menu('home')
@@ -96,4 +95,13 @@ function colocar_botoes_no_sub_menu(lista_botoes) {
         text_container.append(document.createElement('br'));
         text_container.append(document.createElement('br'));
     })
+}
+
+function carregar_pagina_de_perfil() {
+    esconder_sub_menu('usuario')
+}
+
+function carregar_pagina_login() {
+    esconder_sub_menu('login')
+    retorna_formulario_login()
 }

@@ -12,7 +12,11 @@
     <body style="margin: 0;">
         <div class='barra-navegacao'>
             <div class='container-botoes-nav'>
-                <a class='link-barra-navegacao' id='botao-login'>login</a>
+                {% if user.is_authenticated %}
+                    <a class='link-barra-navegacao' id='botao-usuario'>{{ user.username }}</a>
+                {% else %}
+                    <a class='link-barra-navegacao' id='botao-login'>login</a>
+                {% endif %}
                 <a class='link-barra-navegacao' id='botao-home'>home</a>
                 <div style='width: 150px; float: right'>
                     <a class='link-barra-navegacao' id='botao-utilitarios'>utilitários</a>
@@ -31,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class='container-popup'>
+            <div id='container-popup' class='container-popup-geral'>
                 <h class='texto-popup'></h>
                 <a class='botao-fechar-popup'></a>
             </div>
