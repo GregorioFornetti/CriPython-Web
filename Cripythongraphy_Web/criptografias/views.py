@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db import IntegrityError
 import json
 
@@ -49,3 +49,24 @@ def register_view(request):
 
 def logout_view(request):
     logout(request)
+
+
+def homepage_view(request):
+    return JsonResponse({
+    'Introdução': '''
+    Cripythongraphy-web é a versão web de um projeto sobre criptografia que tem o intuito de traduzir ou encriptar mensagens.
+    O usuário que estiver usando o programa tem liberdade para escolher uma das cifras disponíveis e utiliza-la
+    para encriptar/traduzir um texto, podendo ver na prática como que funcionam algumas cifras. Além disso,
+    nesse programa existem os utilitários, que são implementações que tentam desvendar uma mensagem encriptada
+    sem a sua chave de tradução. E para finalizar, outro objetivo desse projeto é explicar um pouco sobre o assunto
+    cifras de criptografia.''',
+
+    'Adicionais da versão web':'''
+    Na versão web, diferente da versão desktop, é possível cadastrar uma conta para poder gravar alguns dados, como por exemplo
+    chaves padrões (que podem ser utilizadas para encriptar ou traduzir mensagens sem precisar escrever novamente a chave), temas
+    e idiomas. Ao acessar novamente sua conta, ou acessar em um computador diferente, seus dados continuarão salvos !''',
+
+    'Outras informações': '''
+    Caso tenha interesse em conhecer a versão aplicativo desktop do Cripythongraphy, <a href='https://github.com/GregorioFornetti/Cripythongrafia'>
+    Clique aqui</a> para acessar o repositório do github desse arquivo
+    '''})

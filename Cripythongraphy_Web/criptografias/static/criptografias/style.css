@@ -206,3 +206,21 @@
     border: 0px;
     float: right;
 }
+
+.textos-pagina {
+    font-family: 'Public Sans Extralight', sans-serif;
+    font-size: 18px;
+    color: rgb(100, 101, 96);
+    margin: 0px 50px;
+}
+
+.container-textos-pagina {
+    margin: 0px 50px;
+    padding-bottom: 40px;
+}
+
+.titulos-pagina {
+    font-family: 'Public Sans Bold', sans-serif;
+    font-size: 24px;
+    color: rgb(100, 101, 96);
+}

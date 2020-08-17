@@ -40,6 +40,6 @@ function criar_popup_sucesso(mensagem, classe) {
     texto_popup.innerHTML = mensagem;
     texto_popup.style.color = cor_texto_sucesso;
 
-    botao_fechar_popup.innerHTML.innerHTML = 'x'
+    botao_fechar_popup.innerHTML = 'x';
     botao_fechar_popup.style.color = cor_texto_sucesso;
 }

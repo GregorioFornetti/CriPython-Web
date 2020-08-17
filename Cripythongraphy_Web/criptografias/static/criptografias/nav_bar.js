@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#botao-usuario').onclick = carregar_pagina_de_perfil
     }
     document.querySelector('#botao-home').addEventListener('click', () => {
-        esconder_sub_menu('home')
+        carregar_home_page()
     })
 
     document.querySelector('.container-sub-barra-nav').addEventListener('animationend', () => {
@@ -95,13 +95,4 @@ function colocar_botoes_no_sub_menu(lista_botoes) {
         text_container.append(document.createElement('br'));
         text_container.append(document.createElement('br'));
     })
-}
-
-function carregar_pagina_de_perfil() {
-    esconder_sub_menu('usuario')
-}
-
-function carregar_pagina_login() {
-    esconder_sub_menu('login')
-    retorna_formulario_login()
 }
