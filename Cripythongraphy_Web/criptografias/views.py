@@ -70,3 +70,15 @@ def homepage_view(request):
     Caso tenha interesse em conhecer a versão aplicativo desktop do Cripythongraphy, <a href='https://github.com/GregorioFornetti/Cripythongrafia'>
     Clique aqui</a> para acessar o repositório do github desse arquivo
     '''})
+
+
+def create_JSON_unicode(request, limite):
+    indice_atual = 0
+    dicionario_unicode_printavel = {}
+    for valor_unicode in range(limite):
+        caractere_unicode = chr(valor_unicode)
+        if caractere_unicode.isprintable():
+            indice_atual += 1
+            dicionario_unicode_printavel[indice_atual] = caractere_unicode
+            dicionario_unicode_printavel[caractere_unicode] = indice_atual
+    return JsonResponse(dicionario_unicode_printavel)

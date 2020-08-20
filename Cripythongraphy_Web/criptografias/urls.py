@@ -9,5 +9,6 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
 
     # Rotas para retorno do conteúdo da pagina...
-    path('home', views.homepage_view, name='home')
+    path('home', views.homepage_view, name='home'),
+    path('unicode/<int:limite>', views.create_JSON_unicode, name='unicode')
 ]
