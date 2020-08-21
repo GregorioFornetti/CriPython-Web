@@ -50,6 +50,7 @@
 
 .conteudo-pagina {
     margin-top: 100px;
+    margin-left: 20px;
 }
 
 .triangulo {
@@ -211,16 +212,18 @@
     font-family: 'Public Sans Extralight', sans-serif;
     font-size: 18px;
     color: rgb(100, 101, 96);
-    margin: 0px 50px;
 }
 
 .container-textos-pagina {
-    margin: 0px 50px;
-    padding-bottom: 40px;
+    margin: 0 auto;
+    max-width: 800px;
+    padding-bottom: 20px;
 }
 
 .titulos-pagina {
     font-family: 'Public Sans Bold', sans-serif;
     font-size: 24px;
     color: rgb(100, 101, 96);
+    padding: 0;
+    margin-bottom: 2px;
 }

@@ -38,3 +38,28 @@ function encriptar_cesar_apenas_letras(chave, mensagem) {
     }
 }
 
+function encriptar_cesar_varios_caracteres(chave, mensagem) {
+    chave = parseInt(chave) % LIMITE_UNICODE;
+    let mensagem_encriptada = '';
+    if (!mensagem) {
+        alert('erro mensagem');
+    }
+    if (chave) {
+        for (indice_caractere in mensagem) {
+            const valor_unicode_atual = mensagem.charCodeAt(indice_caractere);
+            if (valor_unicode_atual <= LIMITE_UNICODE) {
+                let valor_unicode_somado = JSON_unicode_limitado[mensagem[indice_caractere]] + chave;
+                console.log(valor_unicode_somado)
+                if (valor_unicode_somado > tamanho_unicode_limitado) {
+                    valor_unicode_somado -= tamanho_unicode_limitado;
+                }
+                mensagem_encriptada += JSON_unicode_limitado[valor_unicode_somado];
+            } else {
+                mensagem_encriptada += mensagem[indice_caractere];
+            }
+        }
+    } else {
+        alert('erro chave');
+    }
+    console.log(mensagem_encriptada);
+}
