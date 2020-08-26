@@ -39,7 +39,7 @@ function encriptar_cesar_apenas_letras(chave, mensagem) {
 }
 
 function encriptar_cesar_varios_caracteres(chave, mensagem) {
-    chave = parseInt(chave) % LIMITE_UNICODE;
+    chave = parseInt(chave) % tamanho_unicode_limitado;
     let mensagem_encriptada = '';
     if (!mensagem) {
         alert('erro mensagem');
@@ -48,11 +48,18 @@ function encriptar_cesar_varios_caracteres(chave, mensagem) {
         for (indice_caractere in mensagem) {
             const valor_unicode_atual = mensagem.charCodeAt(indice_caractere);
             if (valor_unicode_atual <= LIMITE_UNICODE) {
-                let valor_unicode_somado = JSON_unicode_limitado[mensagem[indice_caractere]] + chave;
+                let caractere_atual = mensagem[indice_caractere];
+                if (caractere_atual in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']) {
+                    // É preciso corrigir o indice de strings de numeros (já que são considerados iguais a ints em JSON).
+                    caractere_atual = caractere_atual + 'str';
+                }
+                let valor_unicode_somado = JSON_unicode_limitado[caractere_atual] + chave;
                 console.log(valor_unicode_somado)
+                console.log(tamanho_unicode_limitado)
                 if (valor_unicode_somado > tamanho_unicode_limitado) {
                     valor_unicode_somado -= tamanho_unicode_limitado;
                 }
+                console.log(valor_unicode_somado)
                 mensagem_encriptada += JSON_unicode_limitado[valor_unicode_somado];
             } else {
                 mensagem_encriptada += mensagem[indice_caractere];

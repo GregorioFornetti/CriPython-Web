@@ -10,5 +10,5 @@ urlpatterns = [
 
     # Rotas para retorno do conteúdo da pagina...
     path('home', views.homepage_view, name='home'),
-    path('unicode/<int:limite>', views.create_JSON_unicode, name='unicode')
+    path('unicode/<int:limite>', views.return_JSON_unicode_padrao, name='unicode')
 ]
