@@ -1,13 +1,4 @@
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('form').onsubmit = () => {
-        const chave = document.querySelector('#chave').value;
-        const mensagem = document.querySelector('#mensagem').value;
-        encriptar_cesar_apenas_letras(chave, mensagem);
-        return false;
-    }
-})
-
 function encriptar_cesar_apenas_letras(chave, mensagem) {
     chave = parseInt(chave) % 26;
     console.log(criar_mensagem_cesar_apenas_letras(chave, mensagem));
