@@ -11,7 +11,6 @@ function collect_unicode_json(limite) {
     return fetch(`/unicode/${limite}`)
     .then(response => response.json())
     .then((JSON_unicode_recebido) => {
-        console.log(JSON_unicode_recebido)
         return JSON_unicode_recebido;
     })
 }
