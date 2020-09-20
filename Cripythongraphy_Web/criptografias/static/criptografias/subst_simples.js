@@ -13,10 +13,10 @@ function verificar_chaves_subst_simples_e_criar_json(chave_1, chave_2, apenas_le
             let ascii_chave_1 = chave_1.charCodeAt(i);
             let ascii_chave_2 = chave_2.charCodeAt(i);
 
-            if (ascii_chave_1 < 65 || (ascii_chave_1 > 90 && ascii_chave_1 < 97) || ascii_chave_1 > 122) {
+            if (ascii_chave_1 < COMECO_UNICODE_MAIUSC|| (ascii_chave_1 > FIM_UNICODE_MAIUSC && ascii_chave_1 < COMECO_UNICODE_MINUSC) || ascii_chave_1 > FIM_UNICODE_MINUSC) {
                 return false;
             }
-            if (ascii_chave_2 < 65 || (ascii_chave_2 > 90 && ascii_chave_2 < 97) || ascii_chave_2 > 122) {
+            if (ascii_chave_2 < COMECO_UNICODE_MAIUSC || (ascii_chave_2 > FIM_UNICODE_MAIUSC && ascii_chave_2 < COMECO_UNICODE_MINUSC) || ascii_chave_2 > FIM_UNICODE_MINUSC) {
                 return false;
             }
         }
