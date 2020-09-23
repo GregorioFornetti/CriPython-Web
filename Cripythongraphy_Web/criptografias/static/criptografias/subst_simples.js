@@ -72,11 +72,11 @@ function retornar_json_chaves_mesmos_caracteres(chave_1, chave_2, tamanho_chave)
 
 function subst_simples_apenas_letras(chave_1, chave_2, mensagem) {
     if (!mensagem) {
-        return "Erro mensagem !"
+        return ERRO_MENSAGEM
     }
     let json_convercoes = verificar_chaves_subst_simples_e_criar_json(chave_1, chave_2, true);
     if (!json_convercoes) {
-        return "Erro chaves !"
+        return ERRO_CHAVE
     }
     return subst_simples_criar_nova_mensagem(json_convercoes, mensagem);
 }
@@ -84,11 +84,11 @@ function subst_simples_apenas_letras(chave_1, chave_2, mensagem) {
 
 function subst_simples_varios_caracteres(chave_1, chave_2, mensagem) {  // Codigo parecido (pode ser que dê para simplificar dps).
     if (!mensagem) {
-        return "Erro mensagem !"
+        return ERRO_MENSAGEM
     }
     let json_convercoes = verificar_chaves_subst_simples_e_criar_json(chave_1, chave_2);
     if (!json_convercoes) {
-        return "Erro chaves !"
+        return ERRO_CHAVE
     }
     return subst_simples_criar_nova_mensagem(json_convercoes, mensagem);
 }

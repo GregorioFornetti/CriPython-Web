@@ -39,7 +39,7 @@ function adaptar_chave_vigenere_apenas_letras_traduc(chave) {
     let chave_adaptada = '';
     if (chave_verificada) {
         for (indice in chave_verificada) {
-            let novo_UNICODE = COMECO_UNICODE_MINUSC + (COMECO_UNICODE_MINUSC - chave_verificada.charCodeAt(indice) + 26) % 26;
+            let novo_UNICODE = COMECO_UNICODE_MINUSC + (COMECO_UNICODE_MINUSC - chave_verificada.charCodeAt(indice) + TAMANHO_ALFABETO) % TAMANHO_ALFABETO;
             chave_adaptada += String.fromCharCode(novo_UNICODE);
         }
     } else {
@@ -64,48 +64,48 @@ function adaptar_chave_vigenere_varios_caracteres_traduc(chave) {
 
 function encriptar_vigenere_apenas_letras(chave, mensagem) {
     if (!mensagem) {
-        return 'Erro mensagem !'
+        return ERRO_MENSAGEM
     }
     let chave_verificada = verificar_chave_vigenere_apenas_letras(chave);
     if (chave_verificada) {
         return trocar_caracteres_vigenere_apenas_letras(chave_verificada, mensagem);
     } else {
-        return 'Erro chave !';
+        return ERRO_CHAVE;
     }
 }
 
 function traduzir_vigenere_apenas_letras(chave, mensagem) {
     if (!mensagem) {
-        return 'Erro mensagem !';
+        return ERRO_MENSAGEM;
     }
     let chave_adaptada = adaptar_chave_vigenere_apenas_letras_traduc(chave);
     if (chave_adaptada) {
         return trocar_caracteres_vigenere_apenas_letras(chave_adaptada, mensagem);
     } else {
-        return 'Erro chave !';
+        return ERRO_CHAVE;
     }
 }
 
 function encriptar_vigenere_varios_caracteres(chave, mensagem) {
     if (!mensagem) {
-        return 'Erro mensagem !';
+        return ERRO_MENSAGEM;
     }
     if (verificar_chave_vigenere_varios_caracteres(chave)) {
         return trocar_caracteres_vigenere_varios_caracteres(chave, mensagem);
     } else {
-        return 'Erro chave !'
+        return ERRO_CHAVE
     }
 }
 
 function traduzir_vigenere_varios_caracteres(chave, mensagem) {
     if (!mensagem) {
-        return 'Erro mensagem !';
+        return ERRO_MENSAGEM;
     }
     let chave_adaptada = adaptar_chave_vigenere_varios_caracteres_traduc(chave);
     if (chave_adaptada) {
         return trocar_caracteres_vigenere_varios_caracteres(chave_adaptada, mensagem);
     } else {
-        return 'Erro chave !'
+        return ERRO_CHAVE
     }
 }
 
@@ -115,7 +115,7 @@ function trocar_caracteres_vigenere_apenas_letras(chave, mensagem) {
     const tamanho_chave = chave.length;
     const JSON_convercoes = retornar_JSON_vigenere_apenas_letras();
     for (indice in mensagem) {
-        let indice_JSON = (JSON_convercoes[mensagem[indice].toLowerCase()] + JSON_convercoes[chave[indice_chave]]) % 26;
+        let indice_JSON = (JSON_convercoes[mensagem[indice].toLowerCase()] + JSON_convercoes[chave[indice_chave]]) % TAMANHO_ALFABETO;
         if (!isNaN(indice_JSON)) {
             indice_chave = (indice_chave + 1) % tamanho_chave;
             if (mensagem.charCodeAt(indice) >= COMECO_UNICODE_MAIUSC && mensagem.charCodeAt(indice) <= FIM_UNICODE_MAIUSC) {
@@ -134,14 +134,12 @@ function trocar_caracteres_vigenere_varios_caracteres(chave, mensagem) {
     let nova_mensagem = '';
     let indice_chave = 0;
     const tamanho_chave = chave.length;
-    console.log(chave)
     for (indice in mensagem) {
         let indice_JSON = (JSON_unicode_limitado[mensagem[indice]] + JSON_unicode_limitado[chave[indice_chave]]) % tamanho_unicode_limitado;
         if (!isNaN(indice_JSON)) {
             indice_chave = (indice_chave + 1) % tamanho_chave;
             nova_mensagem += JSON_unicode_limitado[indice_JSON];
         } else {
-            console.log('oi')
             nova_mensagem += mensagem[indice];
         }
     }
