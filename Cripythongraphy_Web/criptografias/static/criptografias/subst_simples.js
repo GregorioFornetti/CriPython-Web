@@ -4,10 +4,10 @@ function verificar_chaves_subst_simples_e_criar_json(chave_1, chave_2, apenas_le
     const tamanho_chave_1 = chave_1.length;
     const tamanho_chave_2 = chave_2.length;
 
-    if (tamanho_chave_1 != tamanho_chave_2) {
+    if (tamanho_chave_1 !== tamanho_chave_2 || tamanho_chave_1 === 0 || tamanho_chave_2 === 0) {
         return false;
     }
-    retornar_json_chaves_mesmos_caracteres(chave_1, chave_2, tamanho_chave_1);
+
     if (apenas_letras) {
         for (let i = 0; i < chave_1.length; i++) {
             let ascii_chave_1 = chave_1.charCodeAt(i);
