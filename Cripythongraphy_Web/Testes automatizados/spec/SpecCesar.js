@@ -70,5 +70,75 @@ describe("Cifra de César", () => {
             expect(encriptar_cesar_varios_caracteres('1', 'a')).toEqual('b');
             expect(traduzir_cesar_varios_caracteres('1', 'b')).toEqual('a');
         });
+
+        it("chave inválida vazia", () => {
+            expect(encriptar_cesar_varios_caracteres('', 'a')).toEqual(ERRO_CHAVE);
+            expect(traduzir_cesar_varios_caracteres('', 'a')).toEqual(ERRO_CHAVE);
+        });
+
+        it("chave inválida negativa", () => {
+            expect(encriptar_cesar_varios_caracteres('-1', 'a')).toEqual(ERRO_CHAVE);
+            expect(traduzir_cesar_varios_caracteres('-1', 'a')).toEqual(ERRO_CHAVE);
+        });
+
+        it("chave inválida texto", () => {
+            expect(encriptar_cesar_varios_caracteres('texto', 'a')).toEqual(ERRO_CHAVE);
+            expect(traduzir_cesar_varios_caracteres('texto', 'a')).toEqual(ERRO_CHAVE);
+        });
+
+        it("chave inválida float", () => {
+            expect(encriptar_cesar_varios_caracteres("1.2", 'a')).toEqual(ERRO_CHAVE);
+            expect(traduzir_cesar_varios_caracteres("1.2", 'a')).toEqual(ERRO_CHAVE);
+        });
+
+        it("mensagem inválida", () => {
+            expect(encriptar_cesar_varios_caracteres("1", '')).toEqual(ERRO_MENSAGEM);
+            expect(traduzir_cesar_varios_caracteres("1", '')).toEqual(ERRO_MENSAGEM);
+        });
+
+        it("dando volta no dic unicode limitado", () => {
+            expect(encriptar_cesar_varios_caracteres("1", '˞˝')).toEqual(' ˞');
+            expect(traduzir_cesar_varios_caracteres("1", ' ˞')).toEqual('˞˝');
+        });
+
+        it("maiusculo e minusculos", () => {
+            expect(encriptar_cesar_varios_caracteres('1', 'aAbBcCdD')).toEqual('bBcCdDeE');
+            expect(traduzir_cesar_varios_caracteres('1', 'bBcCdDeE')).toEqual('aAbBcCdD');
+        });
+
+        it("caracteres especiais", () => {
+            expect(encriptar_cesar_varios_caracteres('1', 'áéíóú!? abc')).toEqual('âêîôû"@!bcd');
+            expect(traduzir_cesar_varios_caracteres('1', 'âêîôû"@!bcd')).toEqual('áéíóú!? abc');
+        });
+
+        it("caracteres especiais acima do limite", () => {
+            expect(encriptar_cesar_varios_caracteres('1', '˟')).toEqual('˟');
+            expect(traduzir_cesar_varios_caracteres('1', '˟')).toEqual('˟');
+        });
+
+        it('chave maior', () => {
+            expect(encriptar_cesar_varios_caracteres('123', 'a')).toEqual('ÿ');
+            expect(traduzir_cesar_varios_caracteres('123', 'ÿ')).toEqual('a');
+        });
+
+        it('texto grande 1', () => {
+            expect(encriptar_cesar_varios_caracteres('123', 
+            'Olá ! Será que troca letras com acentos também ? E espaços ? Vamos testar agora !')
+            ).toEqual('íĊŜ¾¿¾ñăĐŜ¾ďēă¾ĒĐčāÿ¾ĊăĒĐÿđ¾āčċ¾ÿāăČĒčđ¾ĒÿċĀŤċ¾Ý¾ã¾ăđĎÿŢčđ¾Ý¾ôÿċčđ¾ĒăđĒÿĐ¾ÿąčĐÿ¾¿');
+
+            expect(traduzir_cesar_varios_caracteres('123',
+            'íĊŜ¾¿¾ñăĐŜ¾ďēă¾ĒĐčāÿ¾ĊăĒĐÿđ¾āčċ¾ÿāăČĒčđ¾ĒÿċĀŤċ¾Ý¾ã¾ăđĎÿŢčđ¾Ý¾ôÿċčđ¾ĒăđĒÿĐ¾ÿąčĐÿ¾¿')
+            ).toEqual('Olá ! Será que troca letras com acentos também ? E espaços ? Vamos testar agora !');
+        });
+
+        it('texto grande 2', () => {
+            expect(encriptar_cesar_varios_caracteres('321',
+            'Legal ! Parece que está tudo funcionando corretamente, vamos ver como o texto fica movendo mais ainda !!!')
+            ).toEqual('ưǉǋǅǐƄƅƄƴǅǖǉǇǉƄǕǙǉƄǉǗǘȢƄǘǙǈǓƄǊǙǒǇǍǓǒǅǒǈǓƄǇǓǖǖǉǘǅǑǉǒǘǉƐƄǚǅǑǓǗƄǚǉǖƄǇǓǑǓƄǓƄǘǉǜǘǓƄǊǍǇǅƄǑǓǚǉǒǈǓƄǑǅǍǗƄǅǍǒǈǅƄƅƅƅ');
+
+            expect(traduzir_cesar_varios_caracteres('321',
+            'ưǉǋǅǐƄƅƄƴǅǖǉǇǉƄǕǙǉƄǉǗǘȢƄǘǙǈǓƄǊǙǒǇǍǓǒǅǒǈǓƄǇǓǖǖǉǘǅǑǉǒǘǉƐƄǚǅǑǓǗƄǚǉǖƄǇǓǑǓƄǓƄǘǉǜǘǓƄǊǍǇǅƄǑǓǚǉǒǈǓƄǑǅǍǗƄǅǍǒǈǅƄƅƅƅ')
+            ).toEqual('Legal ! Parece que está tudo funcionando corretamente, vamos ver como o texto fica movendo mais ainda !!!');
+        });
     });
 });

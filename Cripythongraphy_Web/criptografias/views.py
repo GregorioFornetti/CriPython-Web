@@ -85,6 +85,7 @@ def create_JSON_unicode(limite):
             else:
                 dicionario_unicode_printavel[caractere_unicode] = indice_atual
             indice_atual += 1
+    print(len(dicionario_unicode_printavel) / 2)
     return dicionario_unicode_printavel
 
 json_unicode_padrao = create_JSON_unicode(734)
