@@ -25,6 +25,9 @@ function retornar_JSON_vigenere_apenas_letras() {
 }
 
 function verificar_chave_vigenere_varios_caracteres(chave) {
+    if (!chave) {
+        return false;
+    }
     for (indice in chave) {
         let UNICODE_caractere_atual = chave.charCodeAt(indice);
         if (UNICODE_caractere_atual > LIMITE_UNICODE) {
@@ -57,7 +60,6 @@ function adaptar_chave_vigenere_varios_caracteres_traduc(chave) {
         }
     } else {
         return false;
-
     }
     return chave_adaptada;
 }
