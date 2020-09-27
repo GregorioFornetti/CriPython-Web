@@ -8,31 +8,52 @@ function verificar_chaves_subst_simples_e_criar_json(chave_1, chave_2, apenas_le
         return false;
     }
 
-    if (apenas_letras) {
+    if (apenas_letras) { // Se for modo apenas letras, verificar se todos caracteres são do alfabeto.
+        chave_1 = chave_1.toLowerCase();
+        chave_2 = chave_2.toLowerCase();
         for (let i = 0; i < chave_1.length; i++) {
             let ascii_chave_1 = chave_1.charCodeAt(i);
             let ascii_chave_2 = chave_2.charCodeAt(i);
 
-            if (ascii_chave_1 < COMECO_UNICODE_MAIUSC|| (ascii_chave_1 > FIM_UNICODE_MAIUSC && ascii_chave_1 < COMECO_UNICODE_MINUSC) || ascii_chave_1 > FIM_UNICODE_MINUSC) {
+            if (ascii_chave_1 < COMECO_UNICODE_MINUSC || ascii_chave_1 > FIM_UNICODE_MINUSC) {
                 return false;
             }
-            if (ascii_chave_2 < COMECO_UNICODE_MAIUSC || (ascii_chave_2 > FIM_UNICODE_MAIUSC && ascii_chave_2 < COMECO_UNICODE_MINUSC) || ascii_chave_2 > FIM_UNICODE_MINUSC) {
+            if (ascii_chave_2 < COMECO_UNICODE_MINUSC || ascii_chave_2 > FIM_UNICODE_MINUSC) {
                 return false;
             }
         }
     }
-    let chave_JSON = retornar_json_chaves_mesmos_caracteres(chave_1, chave_2, tamanho_chave_1);
-    if (!chave_JSON) {
-        chave_JSON = retornar_json_chaves_caracteres_diferentes(chave_1, chave_2, tamanho_chave_1);
+
+    if (chave_sem_caracteres_repetidos(chave_1) && chave_sem_caracteres_repetidos(chave_2)) {
+        let chave_JSON = retornar_json_chaves_mesmos_caracteres(chave_1, chave_2, tamanho_chave_1);
+        if (!chave_JSON) {
+            chave_JSON = retornar_json_chaves_caracteres_diferentes(chave_1, chave_2, tamanho_chave_1);
+        }
+        if (chave_JSON && apenas_letras) {
+            for (chave in chave_JSON) {
+                const VALOR_ATUAL = chave_JSON[chave];
+                chave_JSON[chave.toUpperCase()] = VALOR_ATUAL.toUpperCase();
+                chave_JSON[chave.toLowerCase()] = VALOR_ATUAL.toLowerCase(); 
+            }
+        }
+        return chave_JSON;
+    } else {
+        return false;
     }
-    if (chave_JSON && apenas_letras) {
-        for (chave in chave_JSON) {
-            const VALOR_ATUAL = chave_JSON[chave];
-            chave_JSON[chave.toUpperCase()] = VALOR_ATUAL.toUpperCase();
-            chave_JSON[chave.toLowerCase()] = VALOR_ATUAL.toLowerCase(); 
+}
+
+
+function chave_sem_caracteres_repetidos(chave) {
+    // Verificar se a chave não possui caracteres repetidos.
+    let lista_caracteres_verificados = [];
+    for (indice_caractere in chave) {
+        if (lista_caracteres_verificados.indexOf(chave[indice_caractere]) === -1) {
+            lista_caracteres_verificados.push(chave[indice_caractere]);
+        } else {
+            return false;
         }
     }
-    return chave_JSON;
+    return true;
 }
 
 
@@ -69,12 +90,11 @@ function retornar_json_chaves_mesmos_caracteres(chave_1, chave_2, tamanho_chave)
     return json_convercoes;
 }
 
-
-function subst_simples_apenas_letras(chave_1, chave_2, mensagem) {
+function executar_subst_simples(chave_1, chave_2, mensagem, apenas_letras) {
     if (!mensagem) {
         return ERRO_MENSAGEM
     }
-    let json_convercoes = verificar_chaves_subst_simples_e_criar_json(chave_1, chave_2, true);
+    let json_convercoes = verificar_chaves_subst_simples_e_criar_json(chave_1, chave_2, apenas_letras);
     if (!json_convercoes) {
         return ERRO_CHAVE
     }
@@ -82,15 +102,20 @@ function subst_simples_apenas_letras(chave_1, chave_2, mensagem) {
 }
 
 
-function subst_simples_varios_caracteres(chave_1, chave_2, mensagem) {  // Codigo parecido (pode ser que dê para simplificar dps).
-    if (!mensagem) {
-        return ERRO_MENSAGEM
-    }
-    let json_convercoes = verificar_chaves_subst_simples_e_criar_json(chave_1, chave_2);
-    if (!json_convercoes) {
-        return ERRO_CHAVE
-    }
-    return subst_simples_criar_nova_mensagem(json_convercoes, mensagem);
+function encriptar_subst_simples_apenas_letras(chave_1, chave_2, mensagem) {
+    return executar_subst_simples(chave_1, chave_2, mensagem, true);
+}
+
+function traduzir_subst_simples_apenas_letras(chave_1, chave_2, mensagem) {
+    return executar_subst_simples(chave_2, chave_1, mensagem, true);  // Para fazer a tradução, basta inverter a ordem das chaves.
+}
+
+function encriptar_subst_simples_varios_caracteres(chave_1, chave_2, mensagem) {
+    return executar_subst_simples(chave_1, chave_2, mensagem, false);
+}
+
+function traduzir_subst_simples_varios_caracteres(chave_1, chave_2, mensagem) {
+    return executar_subst_simples(chave_2, chave_1, mensagem, false);
 }
 
 
