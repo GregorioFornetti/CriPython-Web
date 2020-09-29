@@ -5,31 +5,39 @@ const JSON_FREQ_ALFA_BR = {'a':14.63, 'e':12.57, 'o':10.73, 's':7.81, 'r':6.53, 
                            'y':0.01, 'w':0.01}
 
 function adivinha_cesar_apenas_letras(mensagem) {
+    if (!mensagem)
+        return false;
     let melhor_pontuacao;
     let melhor_texto;
+    let melhor_chave;
     for (let chave = 1; chave <= TAMANHO_ALFABETO; chave++) {
-        let mensagem_traduzida_atual = traduzir_cesar_apenas_letras(chave, mensagem).toLowerCase();
-        let pontuacao_atual = calcular_pontuacao_texto(mensagem_traduzida_atual);
+        let mensagem_traduzida_atual = traduzir_cesar_apenas_letras(chave, mensagem);
+        let pontuacao_atual = calcular_pontuacao_texto(mensagem_traduzida_atual.toLowerCase());
         if (chave == 1 || pontuacao_atual < melhor_pontuacao) {
             melhor_texto = mensagem_traduzida_atual;
             melhor_pontuacao = pontuacao_atual;
+            melhor_chave = chave;
         }
     }
-    return melhor_texto;
+    return [melhor_texto, melhor_chave];
 }
 
 function adivinha_cesar_varios_caracteres(mensagem) {
+    if (!mensagem)
+        return false;
     let melhor_pontuacao;
     let melhor_texto;
+    let melhor_chave;
     for (let chave = 1; chave <= tamanho_unicode_limitado; chave++) {
-        let mensagem_traduzida_atual = traduzir_cesar_varios_caracteres(chave, mensagem).toLowerCase();
+        let mensagem_traduzida_atual = traduzir_cesar_varios_caracteres(chave, mensagem);
         let pontuacao_atual = calcular_pontuacao_texto(mensagem_traduzida_atual);
         if (chave == 1 || pontuacao_atual < melhor_pontuacao) {
             melhor_texto = mensagem_traduzida_atual;
             melhor_pontuacao = pontuacao_atual;
+            melhor_chave = chave;
         }
     }
-    return melhor_texto;
+    return [melhor_texto, melhor_chave];
 }
 
 function calcular_pontuacao_texto(texto) {
