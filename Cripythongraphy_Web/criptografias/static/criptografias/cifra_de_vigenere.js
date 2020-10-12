@@ -55,10 +55,8 @@ function adaptar_chave_vigenere_varios_caracteres_traduc(chave) {
     let chave_adaptada = '';
     if (verificar_chave_vigenere_varios_caracteres(chave)) {
         for (indice in chave) {
-            let caractere_chave_atual = adicionar_identificador_str(chave[indice])
-            
-            let novo_UNICODE = (tamanho_unicode_limitado - JSON_unicode_limitado[caractere_chave_atual]) % tamanho_unicode_limitado;
-            chave_adaptada += JSON_unicode_limitado[novo_UNICODE];
+            let novo_UNICODE = (tamanho_unicode_limitado - JSON_unicode_limitado[chave[indice]]) % tamanho_unicode_limitado;
+            chave_adaptada += vetor_unicode_limitado[novo_UNICODE];
         }
     } else {
         return false;
@@ -139,15 +137,12 @@ function trocar_caracteres_vigenere_varios_caracteres(chave, mensagem) {
     let indice_chave = 0;
     const tamanho_chave = chave.length;
     for (indice in mensagem) {
-        let caractere_msg_atual = adicionar_identificador_str(mensagem[indice])
-        let caractere_chave_atual = adicionar_identificador_str(chave[indice_chave])
-        
-        let indice_JSON = (JSON_unicode_limitado[caractere_msg_atual] + JSON_unicode_limitado[caractere_chave_atual]) % tamanho_unicode_limitado;
+        let indice_JSON = (JSON_unicode_limitado[mensagem[indice]] + JSON_unicode_limitado[chave[indice_chave]]) % tamanho_unicode_limitado;
         if (!isNaN(indice_JSON)) {
             indice_chave = (indice_chave + 1) % tamanho_chave;
-            nova_mensagem += JSON_unicode_limitado[indice_JSON];
+            nova_mensagem += vetor_unicode_limitado[indice_JSON];
         } else {
-            nova_mensagem += caractere_msg_atual;
+            nova_mensagem += mensagem[indice];
         }
     }
     return nova_mensagem;

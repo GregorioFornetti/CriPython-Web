@@ -1,5 +1,6 @@
 
-let JSON_unicode_limitado = {};
+let JSON_unicode_limitado = {};  // Conversão de caractere para indice numérico.
+let vetor_unicode_limitado = []  // Conversão de indice numérico para caractere.
 let tamanho_unicode_limitado;
 const LISTA_DIGITOS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 const COMECO_UNICODE_MAIUSC = 65;
@@ -42,24 +43,12 @@ for (let i = 32; i <= 734; i++) {
         continue
     
     let caractere_atual = String.fromCharCode(i)
-    JSON_unicode_limitado[cod_atual] = caractere_atual
-    if (caractere_atual in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])  
-        /* Caso o caractere trocado atual seja um número, colocar um "str" depois dele 
-        para que não ocorra conflito com as chaves do tipo int (JSON não faz diferenciação de chaves int de chaves str) */
-        caractere_atual += 'str'
+    vetor_unicode_limitado.push(caractere_atual)
     JSON_unicode_limitado[caractere_atual] = cod_atual
     cod_atual++
 }
-
-tamanho_unicode_limitado = Object.keys(JSON_unicode_limitado).length / 2;
+tamanho_unicode_limitado = Object.keys(JSON_unicode_limitado).length;
 
 function eh_digito(caractere) {
     return LISTA_DIGITOS.indexOf(caractere) !== -1
-}
-
-function adicionar_identificador_str(caractere) {
-    // Caso o caractere atual ser um digito em forma de string, colocar um "str" depois para identifica-lo com string
-    if (eh_digito(caractere))
-        return caractere + 'str'
-    return caractere
 }

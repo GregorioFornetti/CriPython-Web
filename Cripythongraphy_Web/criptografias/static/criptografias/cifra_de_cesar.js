@@ -67,18 +67,13 @@ function traduzir_cesar_varios_caracteres(chave, mensagem) {
 function criar_mensagem_cesar_varios_caracteres(chave, mensagem) {
     let mensagem_nova = '';
     for (indice_caractere in mensagem) {
-        const valor_unicode_atual = mensagem.charCodeAt(indice_caractere);
+        let valor_unicode_atual = mensagem.charCodeAt(indice_caractere);
         if (valor_unicode_atual <= LIMITE_UNICODE) {
-            let caractere_atual = mensagem[indice_caractere];
-            if (eh_digito(caractere_atual)) {
-                // É preciso corrigir o indice de strings de numeros (já que são considerados iguais a ints em JSON).
-                caractere_atual = caractere_atual + 'str';
-            }
-            let valor_unicode_somado = JSON_unicode_limitado[caractere_atual] + chave;
+            let valor_unicode_somado = JSON_unicode_limitado[mensagem[indice_caractere]] + chave;
             if (valor_unicode_somado >= tamanho_unicode_limitado) {
                 valor_unicode_somado -= tamanho_unicode_limitado;
             }
-            mensagem_nova += JSON_unicode_limitado[valor_unicode_somado];
+            mensagem_nova += vetor_unicode_limitado[valor_unicode_somado];
         } else {
             mensagem_nova += mensagem[indice_caractere];
         }
