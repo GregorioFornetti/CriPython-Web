@@ -81,6 +81,16 @@ describe("Cifra de Vigenère", () => {
             expect(traduzir_vigenere_varios_caracteres('!"#', 'bdfeg')).toEqual('abcde');
         });
 
+        it('Mensagem númerica', () => {
+            expect(encriptar_vigenere_varios_caracteres('!', '12')).toEqual('23');
+            expect(traduzir_vigenere_varios_caracteres('!', '23')).toEqual('12');
+        })
+
+        it('Chave númerica', () => {
+            expect(encriptar_vigenere_varios_caracteres('0', ' ')).toEqual('0');
+            expect(traduzir_vigenere_varios_caracteres('0', '0')).toEqual(' ');
+        })
+
         it('Chave inválida vazia', () => {
             expect(encriptar_vigenere_varios_caracteres('', 'abc')).toEqual(ERRO_CHAVE);
             expect(traduzir_vigenere_varios_caracteres('', 'abc')).toEqual(ERRO_CHAVE);

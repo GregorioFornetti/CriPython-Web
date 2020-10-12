@@ -1,8 +1,7 @@
 
 function chave_contem_apenas_numeros(chave) {
-    const VETOR_NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     for (indice_caractere in chave) {
-        if (VETOR_NUMS.indexOf(chave[indice_caractere]) === -1)
+        if (!eh_digito(chave[indice_caractere]))
             return false;
     }
     if (!chave)
@@ -71,7 +70,7 @@ function criar_mensagem_cesar_varios_caracteres(chave, mensagem) {
         const valor_unicode_atual = mensagem.charCodeAt(indice_caractere);
         if (valor_unicode_atual <= LIMITE_UNICODE) {
             let caractere_atual = mensagem[indice_caractere];
-            if (caractere_atual in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']) {
+            if (eh_digito(caractere_atual)) {
                 // É preciso corrigir o indice de strings de numeros (já que são considerados iguais a ints em JSON).
                 caractere_atual = caractere_atual + 'str';
             }
