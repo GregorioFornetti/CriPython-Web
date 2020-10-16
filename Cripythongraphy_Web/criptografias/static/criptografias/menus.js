@@ -16,16 +16,16 @@ function criar_titulo(nome_titulo, traduc_encript=true) {
     container_titulo.append(titulo)
 
     if (traduc_encript) {  // Criar seleção de opções (radio: encriptação ou tradução)
-        let tamanho_titulo = nome_titulo.length
+        let container_radio = document.createElement('div')
+        container_radio.className = 'box-radio-titulo'
         // Criar barra de separação do titulo das opções
         let separador = document.createElement('h')
         separador.className = 'titulo-cifra'
-        separador.style.marginLeft = `${90 - (tamanho_titulo * 2)}px`
+        separador.style.marginLeft ='70px'
         separador.innerText = '|'
         // Criando texto(label) encriptação
         let texto_encript = document.createElement('h')
         texto_encript.className = 'texto-radio-titulo'
-        texto_encript.style.marginLeft = `${370 - (tamanho_titulo * 15)}px`  // Deslocar menos os radios quando o titulo for grande.
         texto_encript.innerText = 'encriptação'
         // Criando radio encriptação
         let radio_encript = document.createElement('input')
@@ -47,10 +47,11 @@ function criar_titulo(nome_titulo, traduc_encript=true) {
         radio_traduc.id = 'traduc'
         // Adicionando todos os elementos no container do titulo
         container_titulo.append(separador)
-        container_titulo.append(texto_encript)
-        container_titulo.append(radio_encript)
-        container_titulo.append(texto_traduc)
-        container_titulo.append(radio_traduc)
+        container_radio.append(texto_encript)
+        container_radio.append(radio_encript)
+        container_radio.append(texto_traduc)
+        container_radio.append(radio_traduc)
+        container_titulo.append(container_radio)
     }
     container_cifras.append(container_titulo)
 }
@@ -70,21 +71,21 @@ function retornar_titulo_IO(titulo) {
     return titulo_input
 }
 
-function criar_input_padrao_texto(titulo) {
+function criar_input_padrao_texto(titulo, id_input='chave') {
     let container_input = retornar_container_IO()
     let titulo_input = retornar_titulo_IO(titulo)
 
     let input_de_texto = document.createElement('input')
     input_de_texto.className = 'input-cifra'
     input_de_texto.type = 'text'
-    input_de_texto.id = titulo_input
+    input_de_texto.id = id_input
     // Adicionando os novos elementos aos seus containers (divs).
     container_input.append(titulo_input)
     container_input.append(input_de_texto)
     container_cifras.append(container_input)
 }
 
-function criar_input_padrao_radio(lista_titulos, lista_ids, name) {
+function criar_input_padrao_radio(lista_titulos, name) {
     let container_input = retornar_container_IO()
     for (i in lista_titulos) {
         // Criar titulo do radio
@@ -96,7 +97,6 @@ function criar_input_padrao_radio(lista_titulos, lista_ids, name) {
         radio_opcao.type = 'radio'
         radio_opcao.className = 'radio-cifra'
         radio_opcao.name = name
-        radio_opcao.id = lista_ids[i]
         if (i == 0)  // Deixar a primeira opção marcada  
             radio_opcao.checked = true
         // Adicionar o radio atual ao container de input atual
@@ -108,20 +108,22 @@ function criar_input_padrao_radio(lista_titulos, lista_ids, name) {
 
 function criar_radio_padrao_cifras_utilitarios() {
     // Criar radio padrao com opções de: apenas letras e vários caracteres
-    criar_input_padrao_radio(['apenas letras', 'vários caracteres'], ['apenas-letras', 'varios-caracteres'], 'opcoes')
+    criar_input_padrao_radio(['apenas letras', 'vários caracteres'], 'opcoes')
 }
 
-function criar_textarea_input(titulo_textarea, titulo_botao) {
+function criar_textarea_input(titulo_textarea, titulo_botao, func_botao, id_textarea='mensagem') {
     let container_input = retornar_container_IO()
     let titulo_text = retornar_titulo_IO(titulo_textarea)
 
     let textarea_input = document.createElement('textarea')
     textarea_input.className = 'textarea_cifra'
+    textarea_input.id = id_textarea
 
     let botao = document.createElement('input')
     botao.type = 'button'
     botao.id = titulo_botao
     botao.value = titulo_botao
+    botao.addEventListener('click', func_botao)
 
     container_input.append(titulo_text)
     container_input.append(textarea_input)
@@ -129,52 +131,59 @@ function criar_textarea_input(titulo_textarea, titulo_botao) {
     container_cifras.append(container_input)
 }
 
-function criar_textarea_output(titulo) {
+function criar_textarea_output(titulo, id_textarea='resultado') {
     // Criar textarea com titulo. Esse textarea será readonly
     let container_input = retornar_container_IO()
     let titulo_textarea = retornar_titulo_IO(titulo)
 
     let textarea_output = document.createElement('textarea')
+    textarea_output.id = id_textarea
     textarea_output.className = 'textarea_cifra'
     textarea_output.style.borderRadius = '10px'
     textarea_output.style.height = '450px'
+    textarea_output.readOnly = true
 
     container_input.append(titulo_textarea)
     container_input.append(textarea_output)
     container_cifras.append(container_input)
 }
 
-function criar_layout_padrao_cifras(titulo_cifra) {
+function criar_layout_padrao_cifras(titulo_cifra, func_cifra) {
     criar_titulo(titulo_cifra)
     criar_input_padrao_texto('chave')
     criar_radio_padrao_cifras_utilitarios()
-    criar_textarea_input('mensagem', 'executar')
+    criar_textarea_input('mensagem', 'executar', func_cifra)
     criar_textarea_output('resultado')
 }
 
 function criar_menu_cifra_de_cesar() {
-    criar_layout_padrao_cifras('Cifra de César')
+    criar_layout_padrao_cifras('Cifra de César', executar_menu_cifra_de_cesar)
 }
 
 function criar_menu_subst_simples() {
-    criar_layout_padrao_cifras('Substituição simples')
+    criar_titulo('Substituição simples')
+    criar_input_padrao_texto('letras mensagem comum')
+    criar_input_padrao_texto('letras mensagem encriptada')
+    criar_radio_padrao_cifras_utilitarios()
+    criar_textarea_input('mensagem', 'executar', executar_menu_subst_simples)
+    criar_textarea_output('resultado')
 }
 
 function criar_menu_cifra_de_vigenere() {
-    criar_layout_padrao_cifras('Cifra de Vigenère')
+    criar_layout_padrao_cifras('Cifra de Vigenère', executar_menu_cifra_de_vigenere)
 }
 
-function criar_layout_padrao_utilitarios(titulo_utilitario) {
+function criar_layout_padrao_utilitarios(titulo_utilitario, func_utilitario) {
     criar_titulo(titulo_utilitario, false)
     criar_radio_padrao_cifras_utilitarios()
-    criar_textarea_input('mensagem', 'executar')
+    criar_textarea_input('mensagem', 'executar', func_utilitario)
     criar_textarea_output('resultado')
 }
 
 function criar_menu_forca_bruta_cesar() {
-    criar_layout_padrao_utilitarios('Força bruta César')
+    criar_layout_padrao_utilitarios('Força bruta César', executar_menu_forca_bruta_cesar)
 }
 
 function criar_menu_adivinhador_cesar() {
-    criar_layout_padrao_utilitarios('Adivinhador César')
+    criar_layout_padrao_utilitarios('Adivinhador César', executar_menu_adivinhador_cesar)
 }

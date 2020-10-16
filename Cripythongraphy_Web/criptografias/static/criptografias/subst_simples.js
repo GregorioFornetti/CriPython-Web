@@ -102,20 +102,20 @@ function executar_subst_simples(chave_1, chave_2, mensagem, apenas_letras) {
 }
 
 
-function encriptar_subst_simples_apenas_letras(chave_1, chave_2, mensagem) {
-    return executar_subst_simples(chave_1, chave_2, mensagem, true);
+function encriptar_subst_simples_apenas_letras(lista_chaves, mensagem) {
+    return executar_subst_simples(lista_chaves[0], lista_chaves[1], mensagem, true);
 }
 
-function traduzir_subst_simples_apenas_letras(chave_1, chave_2, mensagem) {
-    return executar_subst_simples(chave_2, chave_1, mensagem, true);  // Para fazer a tradução, basta inverter a ordem das chaves.
+function traduzir_subst_simples_apenas_letras(lista_chaves, mensagem) {
+    return executar_subst_simples(lista_chaves[1], lista_chaves[0], mensagem, true);  // Para fazer a tradução, basta inverter a ordem das chaves.
 }
 
-function encriptar_subst_simples_varios_caracteres(chave_1, chave_2, mensagem) {
-    return executar_subst_simples(chave_1, chave_2, mensagem, false);
+function encriptar_subst_simples_varios_caracteres(lista_chaves, mensagem) {
+    return executar_subst_simples(lista_chaves[0], lista_chaves[1], mensagem, false);
 }
 
-function traduzir_subst_simples_varios_caracteres(chave_1, chave_2, mensagem) {
-    return executar_subst_simples(chave_2, chave_1, mensagem, false);
+function traduzir_subst_simples_varios_caracteres(lista_chaves, mensagem) {
+    return executar_subst_simples(lista_chaves[1], lista_chaves[0], mensagem, false);
 }
 
 

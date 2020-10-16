@@ -4,9 +4,13 @@ const JSON_FREQ_ALFA_BR = {'a':14.63, 'e':12.57, 'o':10.73, 's':7.81, 'r':6.53, 
                            'h':1.28, 'q':1.20, 'b':1.04, 'f':1.02, 'z':0.47, 'j':0.4, 'x':0.21, 'k':0.02,
                            'y':0.01, 'w':0.01}
 
-function adivinha_cesar_apenas_letras(mensagem) {
+function adivinha_cesar_apenas_letras(mensagem, modo_teste=false) {
+    /* No modo teste retorna a mensagem e chave com melhor probabilidade de serem corretas dentro de uma lista,
+    caso contrário retorna uma string. A chave e mensagem melhores são aquelas que possuirem menor pontuação 
+    calculado pela função "calcular_pontuacao_texto". Todas as traduções possíveis do modo apenas letras serão testadas. */
     if (!mensagem)
         return false;
+    
     let melhor_pontuacao;
     let melhor_texto;
     let melhor_chave;
@@ -19,12 +23,19 @@ function adivinha_cesar_apenas_letras(mensagem) {
             melhor_chave = chave;
         }
     }
-    return [melhor_texto, melhor_chave];
+    if (modo_teste)
+        return [melhor_texto, melhor_chave];
+    else
+        return `Após alguns cálculos, a mensagem traduzida com maior probabilidade de ser correta é: ${melhor_texto}\n
+        \nE a chave utilizada para essa tradução foi: ${melhor_chave}`
+
 }
 
-function adivinha_cesar_varios_caracteres(mensagem) {
+function adivinha_cesar_varios_caracteres(mensagem, modo_teste=false) {
+    // Realizará a mesma coisa que a função acima, só que testará todas traduções possíveis do modo vários caracteres.
     if (!mensagem)
         return false;
+    
     let melhor_pontuacao;
     let melhor_texto;
     let melhor_chave;
@@ -37,10 +48,17 @@ function adivinha_cesar_varios_caracteres(mensagem) {
             melhor_chave = chave;
         }
     }
-    return [melhor_texto, melhor_chave];
+    if (modo_teste)
+        return [melhor_texto, melhor_chave];
+    else
+        return `Após alguns cálculos, a mensagem traduzida com maior probabilidade de ser correta é: ${melhor_texto}\n
+        \nE a chave utilizada para essa tradução foi: ${melhor_chave}`
 }
 
 function calcular_pontuacao_texto(texto) {
+    /* Calculará a pontuação do texto atual. Será contado a frequência de cada letra do alfabeto no texto atual,
+    e depois fará a soma da diferença absoluta de cada frequência do texto atual com a frequência do alfabeto PT-BR (JSON de
+    freq. no topo desse módulo). Quanto menor a pontuação, quer dizer que mais se aproximou da freq. padrão. */
     let JSON_pontuacao_letras = {'a':0, 'b':0, 'c':0, 'd':0, 'e':0, 'f':0, 'g':0, 'h':0, 'i':0, 'j':0, 'k':0, 'l':0,
                                  'm':0, 'n':0, 'o':0, 'p':0, 'q':0, 'r':0, 's':0, 't':0, 'u':0, 'v':0, 'w':0, 'x':0, 'y':0, 'z':0}
     let pontuacao_atual = 0;
