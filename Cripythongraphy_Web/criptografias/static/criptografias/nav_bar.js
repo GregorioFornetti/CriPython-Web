@@ -5,14 +5,29 @@ let botao_nav_clicado
 let botao_cesar = document.createElement('a');
 botao_cesar.innerHTML = 'Cifra de César';
 botao_cesar.className = 'texto-sub-menu';
+botao_cesar.addEventListener('click', () => {
+    limpar_containers()
+    criar_menu_cifra_de_cesar()
+    esconder_sub_menu('')
+})
 
 let botao_subst_simples = document.createElement('a');
 botao_subst_simples.innerHTML = 'Substituição simples';
 botao_subst_simples.className = 'texto-sub-menu';
+botao_subst_simples.addEventListener('click', () => {
+    limpar_containers()
+    criar_menu_subst_simples()
+    esconder_sub_menu('')
+})
 
 let botao_vigenere = document.createElement('a');
 botao_vigenere.innerHTML = 'Cifra de Vigenère';
 botao_vigenere.className = 'texto-sub-menu';
+botao_vigenere.addEventListener('click', () => {
+    limpar_containers()
+    criar_menu_cifra_de_vigenere()
+    esconder_sub_menu('')
+})
 
 const lista_botoes_cifra = [botao_cesar, botao_subst_simples, botao_vigenere];
 
@@ -20,16 +35,26 @@ const lista_botoes_cifra = [botao_cesar, botao_subst_simples, botao_vigenere];
 let botao_forca_bruta_cesar = document.createElement('a');
 botao_forca_bruta_cesar.innerHTML = 'Força bruta César';
 botao_forca_bruta_cesar.className = 'texto-sub-menu';
+botao_forca_bruta_cesar.addEventListener('click', () => {
+    limpar_containers()
+    criar_menu_forca_bruta_cesar()
+    esconder_sub_menu('')
+})
 
 let botao_adivinhador_cesar = document.createElement('a');
 botao_adivinhador_cesar.innerHTML = 'Adivinhador César';
 botao_adivinhador_cesar.className = 'texto-sub-menu';
+botao_adivinhador_cesar.addEventListener('click', () => {
+    limpar_containers()
+    criar_menu_adivinhador_cesar()
+    esconder_sub_menu('')
+})
 
 const lista_botoes_utilitarios = [botao_forca_bruta_cesar, botao_adivinhador_cesar];
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#botao-utilitarios').addEventListener('click', () => {
-        if (botao_nav_clicado !== 'utilitarios') {  // Não mostrar o sub-menu caso o usuário clique duas vezes no botão cifras.
+        if (botao_nav_clicado !== 'utilitarios') {  // Não mostrar o sub-menu caso o usuário clique duas vezes no botão utilitarios.
             esconder_sub_menu('utilitarios')
             reiniciar_animacao()
             document.querySelector('#triang-utilitarios').style.display = 'block';
@@ -41,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     document.querySelector('#botao-cifras').addEventListener('click', () => {
-        // A mesmo padrão de esconder e mostrar o sub-menu que ocorre nas "cifras", ocorre aqui também !
+        // A mesmo padrão de esconder e mostrar o sub-menu que ocorre nas "utilitarios", ocorre aqui também !
         if (botao_nav_clicado !== 'cifras') {
             esconder_sub_menu('cifras')
             reiniciar_animacao()

@@ -1,7 +1,6 @@
 
 function retorna_formulario_login() {
-    let container_conteudo_pagina = document.querySelector('#textos-pagina');
-    container_conteudo_pagina.innerHTML = '';
+    limpar_containers()
     // Criando container do login em geral (onde todas as informações sobre o cadastro ficarão)
     let container_login = document.createElement('div');
     container_login.className = 'container-cadastro';
@@ -38,7 +37,7 @@ function retorna_formulario_login() {
     texto_cadastrar_2.innerHTML = 'e cadastre-se';
     container_login.append(texto_cadastrar_2);
 
-    container_conteudo_pagina.append(container_login)
+    document.querySelector('#textos-pagina').append(container_login)
 }
 
 function retorna_formulario_cadastro() {

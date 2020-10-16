@@ -14,8 +14,8 @@
         <script src='{% static "criptografias/conteudo_pagina.js" %}'></script>
         <script src='{% static "criptografias/popups.js" %}'></script>
         <script src='{% static "criptografias/login_register.js" %}'></script>
-        <script src='{% static "criptografias/nav_bar.js" %}'></script>
         <script src='{% static "criptografias/menus.js" %}'></script>
+        <script src='{% static "criptografias/nav_bar.js" %}'></script>
     </head>
     <body style="margin: 0;">
         <div class='barra-navegacao'>
@@ -48,33 +48,6 @@
                 <a class='botao-fechar-popup'></a>
             </div>
             <div class='container-cifras'>
-                <div class='box-titulo'>
-                    <h class='titulo-cifra'>Cifra de César</h>
-                    <h class='titulo-cifra' style='margin-left: 70px;'>|</h>
-                    <h class='texto-radio-titulo' style='margin-left: 120px;'>encriptação</h>
-                    <input type='radio' name='modo' id='encript' class='radio-cifra' checked>
-                    <h for='traduc' class='texto-radio-titulo' style='margin-left: 40px;'>tradução</h>
-                    <input type='radio' name='modo' id='traduc' class='radio-cifra'>
-                </div>
-                <div class='container-input-cifra'>
-                    <h class='texto-cifra'>chave</h>
-                    <input type='text' class='input-cifra'>
-                </div>
-                <div class='container-input-cifra'>
-                    <h class="texto-cifra">apenas letras</h>
-                    <input type='radio' class='radio-cifra' name='opcoes' id='apenas-letras' checked>
-                    <h class='texto-cifra' style='margin-left:50px;'>vários caracteres</h>
-                    <input type='radio' class='radio-cifra' name='opcoes' id='varios-caracteres'>
-                </div>
-                <div class='container-input-cifra'>
-                    <h class='texto-cifra' >mensagem</h>
-                    <textarea class='textarea_cifra'></textarea>
-                    <input type='button' value='executar' id='executar'>
-                </div>
-                <div class='container-input-cifra'>
-                    <h class='texto-cifra'>resultado</h>
-                    <textarea class='textarea_cifra' style='border-radius: 10px; height: 450px;' readonly></textarea>
-                </div>
             </div>
             <div id='textos-pagina'>
             </div>

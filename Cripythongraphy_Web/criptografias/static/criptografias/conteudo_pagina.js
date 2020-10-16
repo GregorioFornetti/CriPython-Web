@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function carregar_home_page() {
     if (botao_nav_clicado !== 'home'){
         esconder_sub_menu('home');
-        texto_paginas.innerHTML = '';
+        limpar_containers()
         fetch('/home')
         .then(response => response.json())
         .then(dados => {
@@ -44,4 +44,9 @@ function carregar_pagina_login() {
 
 function carregar_pagina_de_perfil() {
     esconder_sub_menu('usuario')
+}
+
+function limpar_containers() {
+    document.querySelector('.container-cifras').innerHTML = ''
+    texto_paginas.innerHTML = ''
 }
