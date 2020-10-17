@@ -20,13 +20,15 @@
     </head>
     <body style="margin: 0;">
         <div class='barra-navegacao'>
+            <a id='botao-home'>
+                <img src='{% static "LogoPlaceHolder.png" %}' style='width: 300px; height: 80px; margin-left: 30px; margin-top:10px; cursor: pointer;'>
+            </a>
             <div class='container-botoes-nav'>
                 {% if user.is_authenticated %}
                     <a class='link-barra-navegacao' id='botao-usuario'>{{ user.username }}</a>
                 {% else %}
                     <a class='link-barra-navegacao' id='botao-login'>login</a>
                 {% endif %}
-                <a class='link-barra-navegacao' id='botao-home'>home</a>
                 <div style='width: 150px; float: right'>
                     <a class='link-barra-navegacao' id='botao-utilitarios'>utilitários</a>
                     <div class='triangulo' style='margin-top: 48px; margin-left: 60px;' id='triang-utilitarios'></div>
