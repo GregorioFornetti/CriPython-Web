@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function carregar_home_page() {
     if (botao_nav_clicado !== 'home'){
-        esconder_sub_menu('home');
         limpar_containers()
         fetch('/home')
         .then(response => response.json())
@@ -36,14 +35,14 @@ function carregar_textos_pagina(textos_json) {
 }
 
 function carregar_pagina_login() {
-    esconder_sub_menu('login')
+    limpar_containers()
     retorna_formulario_login()
-
 }
 
 
 function carregar_pagina_de_perfil() {
-    esconder_sub_menu('usuario')
+    limpar_containers()
+    console.log('clicou aqui')
 }
 
 function limpar_containers() {

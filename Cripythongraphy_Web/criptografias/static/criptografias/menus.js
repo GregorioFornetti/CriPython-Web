@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function criar_titulo(nome_titulo, traduc_encript=true) {
     // Criando container titulo
+    let largura_tela_atual = window.innerWidth
     let container_titulo = document.createElement('div')
     container_titulo.className = 'box-titulo'
     // Criando texto titulo
@@ -19,10 +20,13 @@ function criar_titulo(nome_titulo, traduc_encript=true) {
         let container_radio = document.createElement('div')
         container_radio.className = 'box-radio-titulo'
         // Criar barra de separação do titulo das opções
-        let separador = document.createElement('h')
-        separador.className = 'titulo-cifra'
-        separador.style.marginLeft ='70px'
-        separador.innerText = '|'
+        if (largura_tela_atual > 900) {
+            let separador = document.createElement('h')
+            separador.className = 'titulo-cifra'
+            separador.style.marginLeft ='70px'
+            separador.innerText = '|'
+            container_titulo.append(separador)
+        }
         // Criando texto(label) encriptação
         let texto_encript = document.createElement('h')
         texto_encript.className = 'texto-radio-titulo'
@@ -46,7 +50,6 @@ function criar_titulo(nome_titulo, traduc_encript=true) {
         radio_traduc.name = 'modo'
         radio_traduc.id = 'traduc'
         // Adicionando todos os elementos no container do titulo
-        container_titulo.append(separador)
         container_radio.append(texto_encript)
         container_radio.append(radio_encript)
         container_radio.append(texto_traduc)
@@ -54,6 +57,10 @@ function criar_titulo(nome_titulo, traduc_encript=true) {
         container_titulo.append(container_radio)
     }
     container_cifras.append(container_titulo)
+    // Criar local onde terá os formulários
+    let div_box_cifras = document.createElement('div')
+    div_box_cifras.id = 'box-cifras'
+    container_cifras.append(div_box_cifras)
 }
 
 function retornar_container_IO() {
@@ -82,12 +89,33 @@ function criar_input_padrao_texto(titulo, id_input='chave') {
     // Adicionando os novos elementos aos seus containers (divs).
     container_input.append(titulo_input)
     container_input.append(input_de_texto)
-    container_cifras.append(container_input)
+    document.querySelector('#box-cifras').append(container_input)
+}
+
+function criar_input_padrao_radio_PC(lista_titulos, name) {
+    let container_input = retornar_container_IO()
+    for (let i = 0; i < lista_titulos.length; i++) {
+        // Criar titulo do radio
+        let titulo_radio = retornar_titulo_IO(lista_titulos[i])
+        if (i > 0) // Caso seja um radio diferente do primeiro, dar um espaçamento 
+            titulo_radio.style.marginLeft = '50px'
+        // Criar opção de radio
+        let radio_opcao = document.createElement('input')
+        radio_opcao.type = 'radio'
+        radio_opcao.className = 'radio-cifra'
+        radio_opcao.name = name
+        if (i == 0)  // Deixar a primeira opção marcada  
+            radio_opcao.checked = true
+        // Adicionar o radio atual ao container de input atual
+        container_input.append(titulo_radio)
+        container_input.append(radio_opcao)
+        document.querySelector('#box-cifras').append(container_input)
+    }
 }
 
 function criar_input_padrao_radio(lista_titulos, name) {
     let container_input = retornar_container_IO()
-    for (i in lista_titulos) {
+    for (let i = 0; i < lista_titulos.length; i++) {
         // Criar titulo do radio
         let titulo_radio = retornar_titulo_IO(lista_titulos[i])
         if (i > 0) // Caso seja um radio diferente do primeiro, dar um espaçamento 
@@ -103,12 +131,34 @@ function criar_input_padrao_radio(lista_titulos, name) {
         container_input.append(titulo_radio)
         container_input.append(radio_opcao)
     }
-    container_cifras.append(container_input)
+    document.querySelector('#box-cifras').append(container_input)
+}
+
+function criar_input_padrao_radio_CEL(lista_titulos, name) {
+    for (let i = 0; i < lista_titulos.length; i++) {
+        let container_input = retornar_container_IO()
+        // Criar titulo do radio
+        let titulo_radio = retornar_titulo_IO(lista_titulos[i])
+        // Criar opção de radio
+        let radio_opcao = document.createElement('input')
+        radio_opcao.type = 'radio'
+        radio_opcao.className = 'radio-cifra'
+        radio_opcao.name = name
+        if (i == 0)  // Deixar a primeira opção marcada  
+            radio_opcao.checked = true
+        // Adicionar o radio atual ao container de input atual
+        container_input.append(titulo_radio)
+        container_input.append(radio_opcao)
+        document.querySelector('#box-cifras').append(container_input)
+    }
 }
 
 function criar_radio_padrao_cifras_utilitarios() {
     // Criar radio padrao com opções de: apenas letras e vários caracteres
-    criar_input_padrao_radio(['apenas letras', 'vários caracteres'], 'opcoes')
+    if (window.innerWidth <= 900)
+        criar_input_padrao_radio_CEL(['apenas letras', 'vários caracteres'], 'opcoes')
+    else
+        criar_input_padrao_radio(['apenas letras', 'vários caracteres'], 'opcoes')
 }
 
 function criar_textarea_input(titulo_textarea, titulo_botao, func_botao, id_textarea='mensagem') {
@@ -128,7 +178,7 @@ function criar_textarea_input(titulo_textarea, titulo_botao, func_botao, id_text
     container_input.append(titulo_text)
     container_input.append(textarea_input)
     container_input.append(botao)
-    container_cifras.append(container_input)
+    document.querySelector('#box-cifras').append(container_input)
 }
 
 function criar_textarea_output(titulo, id_textarea='resultado') {
@@ -145,7 +195,7 @@ function criar_textarea_output(titulo, id_textarea='resultado') {
 
     container_input.append(titulo_textarea)
     container_input.append(textarea_output)
-    container_cifras.append(container_input)
+    document.querySelector('#box-cifras').append(container_input)
 }
 
 function criar_layout_padrao_cifras(titulo_cifra, func_cifra) {

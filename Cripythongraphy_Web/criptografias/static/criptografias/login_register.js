@@ -1,6 +1,5 @@
 
 function retorna_formulario_login() {
-    limpar_containers()
     // Criando container do login em geral (onde todas as informações sobre o cadastro ficarão)
     let container_login = document.createElement('div');
     container_login.className = 'container-cadastro';
@@ -21,6 +20,7 @@ function retorna_formulario_login() {
     texto_cadastrar_1.style = 'color: white; margin-left: 115px;';
     texto_cadastrar_1.innerHTML = 'Ainda não é cadastrado ?';
     container_login.append(texto_cadastrar_1);
+    container_login.append(document.createElement('br'))
     // Criando link para a pagina de cadastro.
     let link_pagina_cadastrar = document.createElement('a');
     link_pagina_cadastrar.className = 'texto-cadastro-label';
@@ -117,12 +117,9 @@ function enviar_info_novo_registro() {
     })
     .then(response => response.text())
     .then(data => {
-        if (data.indexOf('erro') != -1) {  // Ocorreu um erro com o formulário. Mostrar a mensagem de erro em com um popup...
-            criar_popup_erro(data, 'container-popup-login')
-        } else {
-            criar_popup_sucesso(data, 'container-popup-login')
+        alert(data)
+        if (data.indexOf('erro') === -1)  // Tudo deu certo com o formulario
             retorna_formulario_login()
-        }
     })
 }
 
@@ -141,19 +138,19 @@ function enviar_info_login() {
     })
     .then(response => response.text())
     .then(data => {
-        if (data.indexOf('erro') != -1) {  // Ocorreu um erro ao logar o usuário.
-            criar_popup_erro(data, 'container-popup-login')
-        } else {
+        alert(data)
+        if (data.indexOf('erro') === -1) {  // Tudo deu certo com o formulario
             // Substituir o botao login pelo botão usuario (botao que leva para a pagina de perfil)
             let botao_login = document.querySelector('#botao-login');
-            botao_login.innerHTML = nome_usuario;
-            botao_login.onclick = carregar_pagina_de_perfil;
+            if (botao_login) {
+                botao_login.innerHTML = 'perfil';
+                botao_login.onclick = carregar_pagina_de_perfil;
+            }
+            document.querySelector('#user-status').innerText = 'logado'  // Marcar que o usuário está logado
 
             let container_login = document.querySelector('.container-cadastro');
             container_login.innerHTML = '';
             container_login.style.display = 'none';
-
-            criar_popup_sucesso(data, 'container-popup-geral')
         }
     })
 }
@@ -173,3 +170,12 @@ function getCookie(name) {  // Function from Django documentation about CSRF
     }
     return cookieValue;
 }
+
+    /*
+    let botao_login = document.querySelector('#botao-login')
+    if (botao_login) {
+        botao_login.onclick = carregar_pagina_login
+    } else {
+        document.querySelector('#botao-usuario').onclick = carregar_pagina_de_perfil
+    }
+    */
