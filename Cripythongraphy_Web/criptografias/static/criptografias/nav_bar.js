@@ -141,7 +141,7 @@ function criar_elementos_modo_PC() {
     })
     // Adicionando a sub barra
     sub_barra.append(text_container)
-    document.querySelector('.conteudo-pagina').insertBefore(sub_barra, document.querySelector('#container-popup'))
+    document.querySelector('.conteudo-pagina').insertBefore(sub_barra, document.querySelector('.container-cifras'))
 }
 
 

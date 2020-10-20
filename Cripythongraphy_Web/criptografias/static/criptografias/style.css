@@ -289,43 +289,6 @@
     background-color: rgb(96, 97, 94);
 }
 
-.container-popup-login {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 500px;
-    height: 30px;
-    margin-left: -250px;
-    margin-top: -175px;
-    border-radius: 12px;
-    padding: 10px 10px 6px 25px;
-    display: 'none';
-}
-
-.container-popup-geral {
-    width: 500px;
-    height: 30px;
-    margin: auto;
-    border-radius: 12px;
-    padding: 10px 10px 6px 25px;
-    display: 'none';
-}
-
-.texto-popup {
-    font-family: 'Public Sans Bold', sans-serif;
-    font-size: 20px;
-}
-
-.botao-fechar-popup {
-    font-family: 'Public Sans Thin', sans-serif;
-    font-size: 24px;
-    padding-top: -20px;
-    text-decoration: none;
-    cursor: pointer;
-    border: 0px;
-    float: right;
-}
-
 #textos-pagina {
     font-family: 'Public Sans Extralight', sans-serif;
     font-size: 18px;
