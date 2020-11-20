@@ -224,6 +224,7 @@
     right: 2%;
     background-color: var(--azul_claro, grey);
     display: none;
+    border-radius: 0px 0px 20px 20px;
     z-index: 2;
 }
 
@@ -392,4 +393,29 @@
     float: right;
     cursor: pointer;
     z-index: 0;
+}
+
+.titulo-chaves-padroes {
+    color: var(--cinza, grey);
+    font-family: 'Public Sans Bold', sans-serif;
+    font-size: 35px;
+    margin-left: 20px;
+}
+
+.barra-chaves-padroes {
+    background-color: var(--azul_claro, grey);
+    margin-top: 3px;
+    padding: 5px 0px 5px 20px;
+}
+
+.texto-barra-chaves-padroes {
+    font-family: 'Public Sans Semibold', sans-serif;
+    font-size: 28px;
+    color: var(--offwhite, white);
+}
+
+.texto-subst-simples-perfil {
+    font-family: 'Public Sans Semibold', sans-serif;
+    font-size: 26px;
+    color: var(--chumbo, grey);
 }

@@ -11,7 +11,7 @@ function criar_titulo(nome_titulo, traduc_encript=true) {
     let container_titulo = document.createElement('div')
     container_titulo.className = 'box-titulo'
     // Criando texto titulo
-    let titulo = document.createElement('h')
+    let titulo = document.createElement('span')
     titulo.className = 'titulo-cifra'
     titulo.innerText = nome_titulo
     container_titulo.append(titulo)
@@ -21,14 +21,14 @@ function criar_titulo(nome_titulo, traduc_encript=true) {
         container_radio.className = 'box-radio-titulo'
         // Criar barra de separação do titulo das opções
         if (largura_tela_atual > 900) {
-            let separador = document.createElement('h')
+            let separador = document.createElement('span')
             separador.className = 'titulo-cifra'
             separador.style.marginLeft ='70px'
             separador.innerText = '|'
             container_titulo.append(separador)
         }
         // Criando texto(label) encriptação
-        let texto_encript = document.createElement('h')
+        let texto_encript = document.createElement('span')
         texto_encript.className = 'texto-radio-titulo'
         texto_encript.innerText = 'encriptação'
         // Criando radio encriptação
@@ -39,7 +39,7 @@ function criar_titulo(nome_titulo, traduc_encript=true) {
         radio_encript.id = 'encript'
         radio_encript.checked = true;
         // Criando texto(label) tradução
-        let texto_traduc = document.createElement('h')
+        let texto_traduc = document.createElement('span')
         texto_traduc.className = 'texto-radio-titulo'
         texto_traduc.style.marginLeft = '40px'
         texto_traduc.innerText = 'tradução'
@@ -72,7 +72,7 @@ function retornar_container_IO() {
 
 function retornar_titulo_IO(titulo) {
     // Retorna titulo padrão de inputs/outputs de formulários de cifras/utilitários.
-    let titulo_input = document.createElement('h')
+    let titulo_input = document.createElement('span')
     titulo_input.innerHTML = titulo
     titulo_input.className = 'texto-cifra'
     return titulo_input
