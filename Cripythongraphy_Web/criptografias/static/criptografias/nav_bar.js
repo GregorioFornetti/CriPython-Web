@@ -54,9 +54,10 @@ function retorna_lista_botoes_utilitarios() {
 function retorna_botao_login_perfil() {
     let botao_login_perfil = document.createElement('a')
     botao_login_perfil.id = 'botao-login'
+    let nome_usuario = document.querySelector('#user-status').innerText
 
-    if (document.querySelector('#user-status').innerText == 'logado') {
-        botao_login_perfil.innerText = 'perfil'
+    if (nome_usuario) {
+        botao_login_perfil.innerText = nome_usuario
         botao_login_perfil.addEventListener('click', carregar_pagina_de_perfil)
     } else {
         botao_login_perfil.innerText = 'login'
@@ -141,7 +142,7 @@ function criar_elementos_modo_PC() {
     })
     // Adicionando a sub barra
     sub_barra.append(text_container)
-    document.querySelector('.conteudo-pagina').insertBefore(sub_barra, document.querySelector('.container-cifras'))
+    document.querySelector('.conteudo-pagina').insertBefore(sub_barra, document.querySelector('.container-cifrasEperfil'))
 }
 
 

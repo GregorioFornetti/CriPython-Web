@@ -64,10 +64,11 @@
         border-radius: 0px 0px 15px 15px;
     }
 
-    .container-cifras {
+    .container-cifrasEperfil {
         background-color: var(--cinza_claro, grey);
         margin-top: 100px;
         width: 100%;
+        padding-bottom: 100px;
     }
 
     .box-radio-titulo {
@@ -142,10 +143,11 @@
         border-radius: 0px 0px 15px 15px;
     }
 
-    .container-cifras {
+    .container-cifrasEperfil {
         margin: auto;
         background-color: var(--cinza_claro, grey);
         width: 700px;
+        margin-bottom: 100px;
     }
 
     .box-radio-titulo {
@@ -404,8 +406,17 @@
 
 .barra-chaves-padroes {
     background-color: var(--azul_claro, grey);
-    margin-top: 3px;
+    margin-top: 5px;
     padding: 5px 0px 5px 20px;
+}
+
+.barra-chaves-padroes:hover {
+    background-color: rgb(115, 130, 168);
+    cursor: pointer;
+}
+
+.container-inputs-chaves-padroes {
+    padding: 0px 20px 40px 20px;
 }
 
 .texto-barra-chaves-padroes {
@@ -418,4 +429,15 @@
     font-family: 'Public Sans Semibold', sans-serif;
     font-size: 26px;
     color: var(--chumbo, grey);
+    margin-top: 30px;
 }
+
+.container-input-dados-perfil {
+    width: 80%;
+    float: right;
+}
+
+.container-dados-perfil {
+    padding: 10px 20px 40px 20px;
+}
+

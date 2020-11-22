@@ -1,4 +1,9 @@
 
+function carregar_pagina_login() {
+    limpar_containers()
+    retorna_formulario_login()
+}
+
 function retorna_formulario_login() {
     // Criando container do login em geral (onde todas as informações sobre o cadastro ficarão)
     let container_login = document.createElement('div');
@@ -143,7 +148,7 @@ function enviar_info_login() {
             // Substituir o botao login pelo botão usuario (botao que leva para a pagina de perfil)
             let botao_login = document.querySelector('#botao-login');
             if (botao_login) {
-                botao_login.innerHTML = 'perfil';
+                botao_login.innerHTML = nome_usuario;
                 botao_login.onclick = carregar_pagina_de_perfil;
             }
             document.querySelector('#user-status').innerText = 'logado'  // Marcar que o usuário está logado

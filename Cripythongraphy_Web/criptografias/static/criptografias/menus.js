@@ -1,8 +1,8 @@
 
-let container_cifras
+let container_cifrasEperfil
 
 document.addEventListener('DOMContentLoaded', () => {
-    container_cifras = document.querySelector('.container-cifras')
+    container_cifrasEperfil = document.querySelector('.container-cifrasEperfil')
 })
 
 function criar_titulo(nome_titulo, traduc_encript=true) {
@@ -56,11 +56,11 @@ function criar_titulo(nome_titulo, traduc_encript=true) {
         container_radio.append(radio_traduc)
         container_titulo.append(container_radio)
     }
-    container_cifras.append(container_titulo)
+    container_cifrasEperfil.append(container_titulo)
     // Criar local onde terá os formulários
     let div_box_cifras = document.createElement('div')
     div_box_cifras.id = 'box-cifras'
-    container_cifras.append(div_box_cifras)
+    container_cifrasEperfil.append(div_box_cifras)
 }
 
 function retornar_container_IO() {

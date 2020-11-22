@@ -40,12 +40,7 @@ function carregar_pagina_login() {
 }
 
 
-function carregar_pagina_de_perfil() {
-    limpar_containers()
-    console.log('clicou aqui')
-}
-
 function limpar_containers() {
-    document.querySelector('.container-cifras').innerHTML = ''
+    document.querySelector('.container-cifrasEperfil').innerHTML = ''
     texto_paginas.innerHTML = ''
 }

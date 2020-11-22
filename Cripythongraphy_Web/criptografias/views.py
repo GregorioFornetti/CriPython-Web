@@ -38,6 +38,10 @@ def register_view(request):
         e_mail = dados.get('e_mail')
         if not senha or not confirmar_senha or not nome_usuario or not e_mail:
             return HttpResponse('erro: todos os campos precisam ser preenchidos', status=400)
+        if len(nome_usuario) > 20:
+            return HttpResponse('erro: nome de usuário muito grande (max: 20 caracteres)', status=400)
+        if len(e_mail) > 500:
+            return HttpResponse('erro: e-mail muito grande (max: 500 caracteres)', status=400)
         if senha != confirmar_senha:
             return HttpResponse('erro: senhas não batem', status=400)
         try:
