@@ -19,6 +19,7 @@ function carregar_textos_pagina(textos_json) {
     for (chave in textos_json) {
         let container_textos = document.createElement('div');
         container_textos.className = 'container-textos-pagina';
+        document.querySelector('.container-cifrasEperfil').hidden = true
 
         let titulo = document.createElement('h1');
         titulo.innerHTML = chave;
@@ -41,6 +42,8 @@ function carregar_pagina_login() {
 
 
 function limpar_containers() {
-    document.querySelector('.container-cifrasEperfil').innerHTML = ''
+    let container_cifraEperfil = document.querySelector('.container-cifrasEperfil')
+    container_cifraEperfil.innerHTML = ''
+    container_cifraEperfil.hidden = false
     texto_paginas.innerHTML = ''
 }

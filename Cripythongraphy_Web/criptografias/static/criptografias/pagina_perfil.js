@@ -8,6 +8,7 @@ function carregar_pagina_de_perfil() {
     titulo_chaves_padroes.innerText = 'Chaves padrões'
     container_cifrasEperfil.append(titulo_chaves_padroes)
     criar_barra_opcoes_chaves_padroes()
+    criar_botoes_perfil()
 }
 
 
@@ -159,4 +160,33 @@ function criar_titulo_modos_subst_simples(nome_titulo) {
     titulo.className = 'texto-subst-simples-perfil'
     titulo.innerText = nome_titulo
     return titulo
+}
+
+
+function criar_botoes_perfil() {
+    // Criando uma linha branca que separa os inputs e menu das chaves padrões dos botões.
+    let linha_divisoria = document.createElement('div')
+    linha_divisoria.className = 'linha-divisoria'
+
+    // Criando os botoes da pagina de perfil
+    let container_botoes = document.createElement('div')
+    container_botoes.className = 'container-botoes-perfil'
+
+    let botao_aplicar = criar_botao_perfil('Aplicar configurações')
+    let botao_logout = criar_botao_perfil('Logout')
+
+    container_cifrasEperfil.append(linha_divisoria)
+    container_botoes.append(botao_aplicar)
+    container_botoes.append(botao_logout)
+    container_cifrasEperfil.append(container_botoes)
+}
+
+function criar_botao_perfil(titulo_botao) {
+    // Cria e retorna um botao com o titulo enviado como parametro
+    let botao = document.createElement('input')
+    botao.type = 'button'
+    botao.className = 'botao-perfil'
+    botao.value = titulo_botao
+
+    return botao
 }

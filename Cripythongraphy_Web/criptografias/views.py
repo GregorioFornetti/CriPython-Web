@@ -75,25 +75,8 @@ def homepage_view(request):
     Clique aqui</a> para acessar o repositório do github desse arquivo
     '''})
 
-
-def create_JSON_unicode(limite):
-    indice_atual = 0
-    dicionario_unicode_printavel = {}
-    for valor_unicode in range(32, limite + 1):
-        caractere_unicode = chr(valor_unicode)
-        if caractere_unicode.isprintable():
-            dicionario_unicode_printavel[indice_atual] = caractere_unicode
-            if caractere_unicode in ('1', '2', '3', '4', '5', '6', '7', '8', '9', '0'):  
-                # Conflito entre 0 string e 0 int no unicode. Solução: colocar str depois do numeros string.
-                dicionario_unicode_printavel[caractere_unicode + 'str'] = indice_atual
-            else:
-                dicionario_unicode_printavel[caractere_unicode] = indice_atual
-            indice_atual += 1
-    print(len(dicionario_unicode_printavel) / 2)
-    return dicionario_unicode_printavel
-
-json_unicode_padrao = create_JSON_unicode(734)
-
-def return_JSON_unicode_padrao(request, limite):
-    return JsonResponse(json_unicode_padrao)
-
+def update_user_infos(request):
+    # Salvará as novas chaves padrões, e-mail e usuario cadastrados.
+    if request.method == 'POST' and request.user.is_authenticated:
+        dados = json.loads(request.body)
+        

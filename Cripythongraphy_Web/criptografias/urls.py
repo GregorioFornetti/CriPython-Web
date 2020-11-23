@@ -7,8 +7,8 @@ urlpatterns = [
     path('login', views.login_view, name='login'),
     path('register', views.register_view, name='register'),
     path('logout', views.logout_view, name='logout'),
+    path('update_user_infos', views.update_user_infos, name='update_info'),
 
     # Rotas para retorno do conteúdo da pagina...
-    path('home', views.homepage_view, name='home'),
-    path('unicode/<int:limite>', views.return_JSON_unicode_padrao, name='unicode')
+    path('home', views.homepage_view, name='home')
 ]
