@@ -56,7 +56,7 @@ function criar_barra_opcoes_chaves_padroes() {
         esconderOUmostrar_inputs_chaves_padroes('container-cifra-de-cesar')
     })
     container_cifrasEperfil.append(opcao_cifra_de_cesar)
-    criar_inputs_cesar_vigenere('container-cifra-de-cesar')
+    criar_inputs_cesar_vigenere('container-cifra-de-cesar', 'cesar')
     // Cria opção da subst. simples com seus inputs
     let opcao_subst_simples = criar_opcao_chave_padrao('Substituição simples')
     opcao_subst_simples.addEventListener('click', () => {
@@ -67,10 +67,10 @@ function criar_barra_opcoes_chaves_padroes() {
     // Cria opção da cifra de Vigenère com seus inputs
     let opcao_cifra_de_vigenere = criar_opcao_chave_padrao('Cifra de Vigenère')
     opcao_cifra_de_vigenere.addEventListener('click', () => {
-        esconderOUmostrar_inputs_chaves_padroes('container-cifra-de-viginere')
+        esconderOUmostrar_inputs_chaves_padroes('container-cifra-de-vigenere')
     })
     container_cifrasEperfil.append(opcao_cifra_de_vigenere)
-    criar_inputs_cesar_vigenere('container-cifra-de-viginere')
+    criar_inputs_cesar_vigenere('container-cifra-de-vigenere', 'vigenere')
 }
 
 function criar_opcao_chave_padrao(titulo_opcao) {
@@ -96,7 +96,7 @@ function esconderOUmostrar_inputs_chaves_padroes(container_id) {
 
 }
 
-function criar_inputs_cesar_vigenere(container_id) {
+function criar_inputs_cesar_vigenere(container_id, input_id) {
     /* Cria um elemento "div" contendo os inputs/labels necessários para as chaves padrões da
        Cifra de Cesár e Vigenere */
     let container_inputs = document.createElement('div');
@@ -104,15 +104,15 @@ function criar_inputs_cesar_vigenere(container_id) {
     container_inputs.id = container_id
     container_inputs.hidden = true
 
-    let input_apenas_letras = criar_input_padrao_chaves_padroes('apenas letras')
-    let input_varios_caracteres = criar_input_padrao_chaves_padroes('vários caracteres')
+    let input_apenas_letras = criar_input_padrao_chaves_padroes('apenas letras', `${input_id}_apenas_letras`)
+    let input_varios_caracteres = criar_input_padrao_chaves_padroes('vários caracteres', `${input_id}_varios_caracteres`)
 
     container_inputs.append(input_apenas_letras)
     container_inputs.append(input_varios_caracteres)
     container_cifrasEperfil.append(container_inputs)
 }
 
-function criar_input_padrao_chaves_padroes(titulo_label_input, pxs_margin_top) {
+function criar_input_padrao_chaves_padroes(titulo_label_input, input_id, pxs_margin_top) {
     // Cria um elemento "div" contendo o input e label padronizado do projeto.
     let container_input = document.createElement('div')
     container_input.className = 'container-input-cifra'
@@ -126,6 +126,7 @@ function criar_input_padrao_chaves_padroes(titulo_label_input, pxs_margin_top) {
     let input = document.createElement('input')
     input.className = 'input-cifra'
     input.type = 'text'
+    input.id = input_id
 
     container_input.append(label_input)
     container_input.append(input)
@@ -142,12 +143,12 @@ function criar_inputs_subst_simples(container_id) {
     let lista_elementos_subst_simples = []
 
     lista_elementos_subst_simples.push(criar_titulo_modos_subst_simples('apenas letras'))
-    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem comum', '5px'))
-    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem encriptada', '5px'))
+    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem comum', 'msg_comum_apenas_letras', '5px'))
+    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem encriptada', 'msg_encript_apenas_letras', '5px'))
 
     lista_elementos_subst_simples.push(criar_titulo_modos_subst_simples('vários caracteres'))
-    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem comum', '5px'))
-    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem encriptada', '5px'))
+    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem comum', 'msg_comum_varios_caracteres','5px'))
+    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem encriptada', 'msg_encript_varios_caracteres','5px'))
 
     for (indice in lista_elementos_subst_simples)
         container_subst_simples.append(lista_elementos_subst_simples[indice])
@@ -172,8 +173,10 @@ function criar_botoes_perfil() {
     let container_botoes = document.createElement('div')
     container_botoes.className = 'container-botoes-perfil'
 
-    let botao_aplicar = criar_botao_perfil('Aplicar configurações')
-    let botao_logout = criar_botao_perfil('Logout')
+    let botao_aplicar = criar_botao_perfil('aplicar configurações')
+    botao_aplicar.addEventListener('click', aplicar_novas_configs_usuario)
+
+    let botao_logout = criar_botao_perfil('logout')
 
     container_cifrasEperfil.append(linha_divisoria)
     container_botoes.append(botao_aplicar)

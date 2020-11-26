@@ -7,6 +7,7 @@
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
         <title>Cripythongraphy</title>
         <link rel='stylesheet' href='{% static "criptografias/style.css" %}'>
+        <link rel="shortcut icon" href='{% static "favicon.ico" %}' type="image/x-icon">
         <script src='{% static "criptografias/utilidades_cifras.js" %}'></script>
         <script src='{% static "criptografias/cifra_de_cesar.js" %}'></script>
         <script src='{% static "criptografias/subst_simples.js" %}'></script>
@@ -17,6 +18,7 @@
         <script src='{% static "criptografias/login_register.js" %}'></script>
         <script src='{% static "criptografias/exec_menus.js" %}'></script>
         <script src='{% static "criptografias/menus.js" %}'></script>
+        <script src='{% static "criptografias/requests_perfil.js" %}'></script>
         <script src='{% static "criptografias/pagina_perfil.js" %}'></script>
         <script src='{% static "criptografias/nav_bar.js" %}'></script>
     </head>
@@ -30,13 +32,13 @@
             <div class='container-botoes-nav'>
             </div>
             <a id='botao-home'>
-                <img src='static/LogoPlaceHolder.png' id='imagem-logo'>
+                <img src='static/LogoCriPython.png' id='imagem-logo'>
             </a>
         </div>
         <div class='conteudo-pagina'>
             <div class='container-cifrasEperfil' hidden>
             </div>
-            <div id='textos-pagina' style='margin-left: 20px;'>
+            <div id='textos-pagina'>
             </div>
         </div>
 </html>
