@@ -2,21 +2,6 @@
 let botao_nav_clicado
 let modo_PC = false
 
-function retorna_botao_login_perfil() {
-    let botao_login_perfil = document.createElement('a')
-    botao_login_perfil.id = 'botao-login'
-    let nome_usuario = document.querySelector('#user-status').innerText
-
-    if (nome_usuario) {
-        botao_login_perfil.innerText = nome_usuario
-        botao_login_perfil.addEventListener('click', carregar_pagina_de_perfil)
-    } else {
-        botao_login_perfil.innerText = 'login'
-        botao_login_perfil.addEventListener('click', carregar_pagina_login)
-    }
-    return botao_login_perfil
-}
-
 function criar_elementos_modo_PC() {
     // Criar os elementos para resoluções maiores (monitores de computador).
     // Criar Botão "utilitarios" com triangulo invisivel em baixo (para a animação de clique)
@@ -65,12 +50,17 @@ function criar_elementos_modo_PC() {
     triang_cifras.className = 'triangulo'
     triang_cifras.style = 'margin-top: 48px; margin-left: 34px;'
     triang_cifras.id = 'triang-cifras'
+    // Criando botão "Login/Perfil"
+    let botao_login_perfil = retorna_botao_login_perfil()
+    botao_login_perfil.className = 'link-barra-navegacao'
+    botao_login_perfil.addEventListener('click', esconder_sub_menu)
     // Adicionando os elementos na "Nav-bar"
     div_utilitarios.append(botao_utilitarios)
     div_utilitarios.append(triang_utilit)
     div_cifras.append(botao_cifras)
     div_cifras.append(triang_cifras)
     let nav_bar = document.querySelector('.container-botoes-nav')
+    nav_bar.append(botao_login_perfil)
     nav_bar.append(div_utilitarios)
     nav_bar.append(div_cifras)
     // Adicionando os divs da sub barra de navegação
@@ -108,6 +98,17 @@ function criar_elementos_modo_CEL() {
             // Criando a sub-barra de navegação...
             let sub_barra = document.createElement('div')
             sub_barra.className = 'sub-barra-cel'
+            // Criando botão "login/perfil"
+            let botao_login_perfil = document.createElement('div')
+            botao_login_perfil.className = 'container-botao-sub-barra-cel'
+            botao_login_perfil.addEventListener('click', limpar_sub_barra_CEL)
+
+            let tit_botao_login_perfil = retorna_botao_login_perfil()
+            tit_botao_login_perfil.className = 'texto-titulos-sub-barra-cel'
+            botao_login_perfil.append(tit_botao_login_perfil)
+            // Criando barra separadora 1
+            let div_separador_1 = document.createElement('div')
+            div_separador_1.style = 'background-color: white; width: 100%; height: 1px;'
             // Criando botão "Cifras"
             let botao_cifras = document.createElement('div')
             botao_cifras.className = 'container-botao-sub-barra-cel'
@@ -129,9 +130,9 @@ function criar_elementos_modo_CEL() {
                     document.querySelector('.sub-barra-cel').removeChild(div_cifras)
             })
             botao_cifras.append(titulo_botao_cifras)
-            // Criando barra separadora
-            let div_separador = document.createElement('div')
-            div_separador.style = 'background-color: white; width: 100%; height: 1px;'
+            // Criando barra separadora 2
+            let div_separador_2 = document.createElement('div')
+            div_separador_2.style = 'background-color: white; width: 100%; height: 1px;'
             // Criando botão "Utilitários"
             let botao_utilitarios = document.createElement('div')
             botao_utilitarios.className = 'container-botao-sub-barra-cel'
@@ -154,8 +155,10 @@ function criar_elementos_modo_CEL() {
             })
             botao_utilitarios.append(titulo_botao_utilitarios)
             // Adicionando os botões na div principal da sub-nav
+            sub_barra.append(botao_login_perfil)
+            sub_barra.append(div_separador_1)
             sub_barra.append(botao_cifras)
-            sub_barra.append(div_separador)
+            sub_barra.append(div_separador_2)
             sub_barra.append(botao_utilitarios)
             document.querySelector('body').insertBefore(sub_barra, document.querySelector('.conteudo-pagina'))
         }
@@ -164,6 +167,21 @@ function criar_elementos_modo_CEL() {
         }
     })
     document.querySelector('.barra-navegacao').append(tri_barra)
+}
+
+function retorna_botao_login_perfil() {
+    let botao_login_perfil = document.createElement('a')
+    botao_login_perfil.id = 'botao-login'
+    let nome_usuario = document.querySelector('#user-status').innerText
+
+    if (nome_usuario) {
+        botao_login_perfil.innerText = nome_usuario
+        botao_login_perfil.addEventListener('click', carregar_pagina_de_perfil)
+    } else {
+        botao_login_perfil.innerText = 'login'
+        botao_login_perfil.addEventListener('click', carregar_pagina_login)
+    }
+    return botao_login_perfil
 }
 
 function limpar_elementos_PC() {

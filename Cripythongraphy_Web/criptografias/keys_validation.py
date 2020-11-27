@@ -8,7 +8,7 @@ def verificar_chave_cifra_de_cesar(lista_chaves):
 
     try:
         chave = int(chave)
-        if chave > 0 and chave < 100000:
+        if chave >= 0 and chave < 100000:
             return True  # Chave válida
         return 'Chave negativa ou muito grande.'
     except:

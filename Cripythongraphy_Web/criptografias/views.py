@@ -97,26 +97,45 @@ def update_user_infos(request):
         if chave_valida:
             usuario.chave_cesar_apenas_letras = dados.get('cesar_apenas_letras')
         # Salvar nova chave padrão da Cifra de César - Vários caracteres:
+
         lista_chaves_novas = [dados.get('cesar_varios_caracteres')]
         lista_chaves_antigas = [usuario.chave_cesar_varios_caracteres]
 
         chave_valida = verificar_chaves('Cifra de César - Vários caracteres', lista_chaves_novas, lista_chaves_antigas, verificar_chave_cifra_de_cesar)
         if chave_valida:
             usuario.chave_cesar_varios_caracteres = dados.get('cesar_varios_caracteres')
+        
         # Salvar nova chave padrão da Cifra de Subst. Simples - Apenas letras:
-        chave_valida = verificar_chaves('Substituição simples - Apenas letras', [dados.get('msg_comum_apenas_letras'), dados.get('msg_encript_apenas_letras')], [usuario.msg_comum_subst_simples_apenas_letras, usuario.msg_encript_subst_simples_apenas_letras], verificar_chaves_subst_simples_apenas_letras)
+        lista_chaves_novas = [dados.get('msg_comum_apenas_letras'), dados.get('msg_encript_apenas_letras')]
+        lista_chaves_antigas = [usuario.msg_comum_subst_simples_apenas_letras, usuario.msg_encript_subst_simples_apenas_letras]
+
+        chave_valida = verificar_chaves('Substituição simples - Apenas letras', lista_chaves_novas, lista_chaves_antigas, verificar_chaves_subst_simples_apenas_letras)
         if chave_valida:
-            usuario.chave_subst_simples_varios_caracteres = dados.get('subst_simples_varios_caracteres')
+            usuario.msg_comum_subst_simples_apenas_letras = dados.get('msg_comum_apenas_letras')
+            usuario.msg_encript_subst_simples_apenas_letras = dados.get('msg_encript_apenas_letras')
+        
         # Salvar nova chave padrão da Cifra de Subst. Simples - Vários caracteres:
-        chave_valida = verificar_chaves('Substituição simples - Vários caracteres', [dados.get('subst_simples_varios_caracteres')], [usuario.chave_subst_simples_varios_caracteres], verificar_chave_cifra_de_subst_simples)
+        lista_chaves_novas = [dados.get('msg_comum_varios_caracteres'), dados.get('msg_encript_varios_caracteres')]
+        lista_chaves_antigas = [usuario.msg_comum_subst_simples_varios_caracteres, usuario.msg_encript_subst_simples_varios_caracteres]
+
+        chave_valida = verificar_chaves('Substituição simples - Vários caracteres', lista_chaves_novas, lista_chaves_antigas, verificar_chaves_subst_simples_varios_caracteres)
         if chave_valida:
-            usuario.chave_cesar_varios_caracteres = dados.get('cesar_varios_caracteres')
+            usuario.msg_comum_subst_simples_varios_caracteres = dados.get('msg_comum_varios_caracteres')
+            usuario.msg_encript_subst_simples_varios_caracteres = dados.get('msg_encript_varios_caracteres')
+        
         # Salvar nova chave padrão da Cifra de Vigenère - Apenas letras:
-        chave_valida = verificar_chaves('Cifra de Vigenère - Apenas letras', [dados.get('vigenere_apenas_letras')], [usuario.chave_vigenere_apenas_letras], verificar_chave_cifra_de_vigenere_apenas_letras)
+        lista_chaves_novas = [dados.get('vigenere_apenas_letras')]
+        lista_chaves_antigas = [usuario.chave_vigenere_apenas_letras]
+
+        chave_valida = verificar_chaves('Cifra de Vigenère - Apenas letras', lista_chaves_novas, lista_chaves_antigas, verificar_chave_cifra_de_vigenere_apenas_letras)
         if chave_valida:
             usuario.chave_vigenere_apenas_letras = dados.get('vigenere_apenas_letras')
+        
         # Salvar nova chave padrão da Cifra de Vigenère - Vários caracteres:
-        chave_valida = verificar_chaves('Cifra de Vigenère - Vários caracteres', [dados.get('vigenere_varios_caracteres')], [usuario.chave_vigenere_varios_caracteres], verificar_chave_cifra_de_vigenere_varios_caracteres)
+        lista_chaves_novas = [dados.get('vigenere_varios_caracteres')]
+        lista_chaves_antigas = [usuario.chave_vigenere_varios_caracteres]
+
+        chave_valida = verificar_chaves('Cifra de Vigenère - Vários caracteres', lista_chaves_novas, lista_chaves_antigas,verificar_chave_cifra_de_vigenere_varios_caracteres)
         if chave_valida:
             usuario.chave_vigenere_varios_caracteres = dados.get('vigenere_varios_caracteres')
 
