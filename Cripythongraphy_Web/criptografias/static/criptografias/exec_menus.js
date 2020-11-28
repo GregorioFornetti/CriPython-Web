@@ -1,34 +1,35 @@
 
-function criar_binario_opcao(lista_names) {
+function criar_string_opcoes_radio(lista_names) {
     /* Aqui será criado uma string representando todas as escolhas radio feita pelo usuário.
-    EX: Se o usuário escolher o primeiro radio de 2 radios, será 10 (primeiro ativo segundo inativo).
-    Isso será feito para cada radio passado na lista de parametros (será procurado por "name"), e o retorno será a concatenação
-    de todos os resultados coletados. */
+    EX: usuário escolheu encriptar no modo apenas letras, essa função retornará: "encriptação-apenas letras"
+    O nome retornado depende do data-nome_opcao.*/
     let string_info_final = ''
 
     for (let i = 0; i < lista_names.length; i++) {
         let lista_radios_atual = document.getElementsByName(lista_names[i])
-        let string_bin_atual = ''
+        let string_info_atual = ''
 
         for (let j = 0; j < lista_radios_atual.length; j++) {
             if (lista_radios_atual[j].checked) {
-                string_bin_atual += lista_radios_atual[j].dataset.nome_opcao
+                string_info_atual += lista_radios_atual[j].dataset.nome_opcao
+                break
             }
         }
 
         if (i !== lista_names.length - 1)
-            string_info_final += string_bin_atual + '-'  // Adicionar "-" para separar os resultados e facilitar leitura.
+            string_info_final += string_info_atual + '-'  // Adicionar "-" para separar os resultados e facilitar leitura.
         else
-            string_info_final += string_bin_atual
+            string_info_final += string_info_atual
     }
     return string_info_final
 }
 
+
 function executar_cifra_menu_padrao_atual(lista_names, JSON_funcoes, JSON_chaves) {
     /* Essa função pegará o codigo binario das opcoes radio passada na lista names e executará
     a função dentro de JSON_funcoes que tiver a chave igual ao codigo binário atual */
-    let codigo_bin_radio = criar_binario_opcao(lista_names)
-    console.log(JSON_chaves)
+    let codigo_bin_radio = criar_string_opcoes_radio(lista_names)
+    
     if (JSON_chaves) {
         var lista_bin_radio = codigo_bin_radio.split('-')
         var lista_chaves = JSON_chaves[lista_bin_radio[lista_bin_radio.length - 1]]

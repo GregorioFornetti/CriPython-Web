@@ -215,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('resize', () => {
     if (innerWidth > TAMANHO_MAX_CEL && !modo_PC) {
+        console.log(modo_PC)
         limpar_elementos_CEL()
         criar_elementos_modo_PC()
         atualizar_menu_cifras_utilits_para_modo_PC()

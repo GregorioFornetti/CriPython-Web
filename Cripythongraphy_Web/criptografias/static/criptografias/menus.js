@@ -72,8 +72,8 @@ function atualizar_menu_cifras_utilits_para_modo_PC() {
 function atualizar_menu_cifras_utilits_para_modo_CEL() {
     // Função ativada quando o resize muda o layout para o modo CEL.
     let titulo_cifra = document.querySelector("#titulo-cifra")
-    let container_radio = document.querySelector("#container-radio-modos")
-    if (container_radio) {  // Só atualizar se estiver em uma janela de cifras.
+
+    if (titulo_cifra) {  // Só atualizar se estiver em uma janela de cifras.
         // Remove a barra separadora (se for uma cifra) e muda o layout dos radios de modos.
         if (titulo_cifra.dataset.tipo == 'cifra')
             document.querySelector("#separador").remove()
