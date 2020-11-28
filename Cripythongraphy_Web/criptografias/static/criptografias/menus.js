@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function criar_menu_cifra_de_cesar() {
-    criar_layout_padrao_cifras('Cifra de César', executar_menu_cifra_de_cesar)
+    criar_layout_padrao_cifras('Cifra de César', executar_menu_cifra_de_cesar, {
+        'apenas letras' : ['chave_cesar_apenas_letras'],
+        'vários caracteres' :['chave_cesar_varios_caracteres']
+    })
 }
 
 function criar_menu_subst_simples() {
@@ -14,12 +17,18 @@ function criar_menu_subst_simples() {
     criar_input_padrao_texto('letras mensagem comum')
     criar_input_padrao_texto('letras mensagem encriptada')
     criar_radio_padrao_cifras_utilitarios()
-    criar_textarea_input('mensagem', 'executar', executar_menu_subst_simples)
+    criar_textarea_input(executar_menu_subst_simples, {
+        "apenas letras": ['msg_comum_subst_simples_apenas_letras', 'msg_encript_subst_simples_apenas_letras'],
+        "vários caracteres": ['msg_comum_subst_simples_varios_caracteres', 'msg_encript_subst_simples_varios_caracteres']
+    })
     criar_textarea_output('resultado')
 }
 
 function criar_menu_cifra_de_vigenere() {
-    criar_layout_padrao_cifras('Cifra de Vigenère', executar_menu_cifra_de_vigenere)
+    criar_layout_padrao_cifras('Cifra de Vigenère', executar_menu_cifra_de_vigenere, {
+        "apenas letras" : ['chave_vigenere_apenas_letras'],
+        "vários caracteres" : ['chave_vigenere_varios_caracteres']
+    })
 }
 
 function criar_menu_forca_bruta_cesar() {
@@ -30,18 +39,18 @@ function criar_menu_adivinhador_cesar() {
     criar_layout_padrao_utilitarios('Adivinhador César', executar_menu_adivinhador_cesar)
 }
 
-function criar_layout_padrao_cifras(titulo_cifra, func_cifra) {
+function criar_layout_padrao_cifras(titulo_cifra, func_cifra, lista_nomes_chaves) {
     criar_titulo(titulo_cifra, 'cifra')
     criar_input_padrao_texto('chave')
     criar_radio_padrao_cifras_utilitarios()
-    criar_textarea_input('mensagem', 'executar', func_cifra)
+    criar_textarea_input(func_cifra, lista_nomes_chaves)
     criar_textarea_output('resultado')
 }
 
 function criar_layout_padrao_utilitarios(titulo_utilitario, func_utilitario) {
     criar_titulo(titulo_utilitario, 'utilitario', false)
     criar_radio_padrao_cifras_utilitarios()
-    criar_textarea_input('mensagem', 'executar', func_utilitario)
+    criar_textarea_input(func_utilitario)
     criar_textarea_output('resultado')
 }
 
@@ -105,6 +114,7 @@ function criar_titulo(nome_titulo, tipo, traduc_encript=true) {
         radio_encript.type = 'radio'
         radio_encript.name = 'modo'
         radio_encript.id = 'encript'
+        radio_encript.dataset.nome_opcao = 'encriptação'
         radio_encript.checked = true;
         // Criando texto(label) tradução
         let texto_traduc = document.createElement('span')
@@ -116,6 +126,7 @@ function criar_titulo(nome_titulo, tipo, traduc_encript=true) {
         radio_traduc.className = 'radio-cifra'
         radio_traduc.type = 'radio'
         radio_traduc.name = 'modo'
+        radio_traduc.dataset.nome_opcao = 'tradução'
         radio_traduc.id = 'traduc'
         // Adicionando todos os elementos no container do titulo
         container_radio.append(texto_encript)
@@ -175,6 +186,7 @@ function retorna_input_padrao_radio_PC(lista_titulos, name) {
         let radio_opcao = document.createElement('input')
         radio_opcao.type = 'radio'
         radio_opcao.className = 'radio-cifra'
+        radio_opcao.dataset.nome_opcao = lista_titulos[i]
         radio_opcao.name = name
         if (i == 0)  // Deixar a primeira opção marcada  
             radio_opcao.checked = true
@@ -197,6 +209,7 @@ function retorna_input_padrao_radio_CEL(lista_titulos, name) {
         let radio_opcao = document.createElement('input')
         radio_opcao.type = 'radio'
         radio_opcao.className = 'radio-cifra'
+        radio_opcao.dataset.nome_opcao = lista_titulos[i]
         radio_opcao.name = name
         if (i == 0)  // Deixar a primeira opção marcada  
             radio_opcao.checked = true
@@ -208,31 +221,71 @@ function retorna_input_padrao_radio_CEL(lista_titulos, name) {
     return container_inputs
 }
 
-function criar_textarea_input(titulo_textarea, titulo_botao, func_botao, id_textarea='mensagem') {
+function criar_textarea_input(func_botao, lista_nomes_chave, id_textarea='mensagem') {
     let container_input = retornar_container_IO()
-    let titulo_text = retornar_titulo_IO(titulo_textarea)
+    let titulo_text = retornar_titulo_IO('mensagem')
 
     let textarea_input = document.createElement('textarea')
     textarea_input.className = 'textarea_cifra'
     textarea_input.id = id_textarea
 
+    let botao_exec = retorna_botao_cifras_utilit('executar', func_botao)
+
+    container_input.append(titulo_text)
+    container_input.append(textarea_input)
+    container_input.append(botao_exec)
+    if (document.querySelector("#titulo-cifra").dataset.tipo == 'cifra') 
+        container_input.append(retorna_botao_cifras_utilit('usar chave padrão', func_botao, lista_nomes_chave))
+    
+    document.querySelector('#box-cifras').append(container_input)
+}
+
+function retorna_botao_cifras_utilit(titulo_botao, func_botao, JSON_nomes_chaves) {
     let botao = document.createElement('input')
     botao.type = 'button'
     botao.id = titulo_botao
     botao.className = 'botao-cifras'
     botao.value = titulo_botao
-    botao.addEventListener('click', func_botao)
 
-    container_input.append(titulo_text)
-    container_input.append(textarea_input)
-    container_input.append(botao)
-    document.querySelector('#box-cifras').append(container_input)
+    if (!JSON_nomes_chaves)
+        botao.addEventListener('click', () => {
+            func_botao(false)
+        })
+    else
+        botao.addEventListener('click', () => {
+            let textarea_resultado = document.querySelector('#resultado')
+
+            if (!JSON_dados_usuario)
+                textarea_resultado.value = 'Você precisa estar logado para poder usar essa opção !'
+            else {
+                let JSON_chaves = {}
+                for (nome_opcao in JSON_nomes_chaves) {
+                    JSON_chaves[nome_opcao] = []
+
+                    for (let i = 0; i < JSON_nomes_chaves[nome_opcao].length; i++) {
+                        JSON_chaves[nome_opcao].push(JSON_dados_usuario[JSON_nomes_chaves[nome_opcao][i]])
+
+                        if (JSON_dados_usuario[JSON_nomes_chaves[nome_opcao][i]] == 0 || JSON_dados_usuario[JSON_nomes_chaves[nome_opcao][i]] == '') {
+                            textarea_resultado.value = 'Você precisa definir uma chave padrão válida na pagina de perfil para usar essa opção !'
+                            return
+                        }
+                    }
+                }
+                func_botao(JSON_chaves)
+            }
+        })
+
+    return botao
 }
 
-function criar_textarea_output(titulo, id_textarea='resultado') {
+function mostrar_msg_erro_chave_padrao(info_erro) {
+    document.querySelector('#resultado').value = info_erro
+}
+
+function criar_textarea_output(id_textarea='resultado') {
     // Criar textarea com titulo. Esse textarea será readonly
     let container_input = retornar_container_IO()
-    let titulo_textarea = retornar_titulo_IO(titulo)
+    let titulo_textarea = retornar_titulo_IO('resultado')
 
     let textarea_output = document.createElement('textarea')
     textarea_output.id = id_textarea
