@@ -3,6 +3,8 @@ from django.db import models
 
 # Create your models here.
 class User(AbstractUser):
+
+    # Padrao de nomenclatura das variaveis: nome_da_chave_nome_da_cifra_nome_do_modo
     chave_cesar_apenas_letras = models.IntegerField(default=0)
     chave_cesar_varios_caracteres = models.IntegerField(default=0)
 

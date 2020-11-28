@@ -8,6 +8,7 @@ function aplicar_novas_configs_usuario() {
     fetch('/update_user_infos', {
         method: 'POST',
         body: JSON.stringify({
+             // Padrao de nomenclatura: nome_da_chave_nome_da_cifra_nome_do_modo
             'chave_cesar_apenas_letras': document.querySelector('#chave_cesar_apenas_letras').value,
             'chave_cesar_varios_caracteres': document.querySelector('#chave_cesar_varios_caracteres').value,
 
@@ -24,6 +25,7 @@ function aplicar_novas_configs_usuario() {
     .then(response => response.text())
     .then(data => {
         alert(data)  // Mostrar ao usuário o registro das novas informações enviadas (se elas foram salvas com sucesso ou não).
+        coletar_infos_perfil()
     })
 }
 

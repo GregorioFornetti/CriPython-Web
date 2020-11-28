@@ -87,49 +87,36 @@ def update_user_infos(request):
     if request.method == 'POST' and request.user.is_authenticated:
         dados = json.loads(request.body)
         usuario = User.objects.filter(pk=request.user.id)
+        chaves_antigas = usuario[0].serialize()
 
         chaves_padroes = {
             "Cifra de César - Apenas letras": {  # Titulo da cifra - Modo da cifra
-                # Chave: nome da variavel da chave armazenado no BD (verificar em models na classe User) da chave padrão atual.
-                # Valor: a nova chave(enviada pelo usuário) que deve ser armazenada caso seja válida.
-                "chaves novas": { "chave_cesar_apenas_letras": dados.get('chave_cesar_apenas_letras') }, 
-                "chaves antigas": [usuario[0].chave_cesar_apenas_letras],  # Chaves antigas que estavam armazenadas no BD.
+                "nome chaves" : ['chave_cesar_apenas_letras'],  # Lista com os nomes das chaves dessa cifra e modo.
                 "verificar chave": verificar_chave_cifra_de_cesar  # Função que verifica se a chave nova passada é válida.
             },
             "Cifra de César - Vários caracteres": {
-                "chaves novas": { "chave_cesar_varios_caracteres": dados.get('chave_cesar_varios_caracteres') },
-                "chaves antigas": [usuario[0].chave_cesar_varios_caracteres],
+                "nome chaves" : ['chave_cesar_varios_caracteres'],
                 "verificar chave": verificar_chave_cifra_de_cesar,
             },
             "Substituição simples - Apenas letras": {
-                "chaves novas": {
-                    "msg_comum_subst_simples_apenas_letras" : dados.get('msg_comum_subst_simples_apenas_letras'),
-                    "msg_encript_subst_simples_apenas_letras" : dados.get('msg_encript_subst_simples_apenas_letras') 
-                },
-                "chaves antigas": [usuario[0].msg_comum_subst_simples_apenas_letras, usuario[0].msg_encript_subst_simples_apenas_letras],
+                "nome chaves" : ['msg_comum_subst_simples_apenas_letras', 'msg_encript_subst_simples_apenas_letras'],
                 "verificar chave": verificar_chaves_subst_simples_apenas_letras,
             },
             "Substituição simples - Vários caracteres": {
-                "chaves novas": {
-                    "msg_comum_subst_simples_varios_caracteres" : dados.get('msg_comum_subst_simples_varios_caracteres'),
-                    "msg_encript_subst_simples_varios_caracteres" : dados.get('msg_encript_subst_simples_varios_caracteres') 
-                },
-                "chaves antigas": [usuario[0].msg_comum_subst_simples_varios_caracteres, usuario[0].msg_encript_subst_simples_varios_caracteres],
+                "nome chaves" : ['msg_comum_subst_simples_varios_caracteres', 'msg_encript_subst_simples_varios_caracteres'],
                 "verificar chave": verificar_chaves_subst_simples_varios_caracteres,
             },
             "Cifra de Vigenère - Apenas letras": {
-                "chaves novas": { "chave_vigenere_apenas_letras": dados.get('chave_vigenere_apenas_letras') },
-                "chaves antigas": [usuario[0].chave_vigenere_apenas_letras],
+                "nome chaves" : ['chave_vigenere_apenas_letras'],
                 "verificar chave": verificar_chave_cifra_de_vigenere_apenas_letras,
             },
             "Cifra de Vigenère - Vários caracteres": {
-                "chaves novas": { "chave_vigenere_varios_caracteres": dados.get('chave_vigenere_varios_caracteres') },
-                "chaves antigas": [usuario[0].chave_vigenere_varios_caracteres],
+                "nome chaves" : ['chave_vigenere_varios_caracteres'],
                 "verificar chave": verificar_chave_cifra_de_vigenere_varios_caracteres,
             }
         }
 
-        registros = verificar_e_salvar_chaves_padroes(chaves_padroes, usuario)
+        registros = verificar_e_salvar_chaves_padroes(chaves_padroes, chaves_antigas, dados, usuario)
 
         usuario[0].save()
         if registros:
@@ -140,27 +127,39 @@ def update_user_infos(request):
     return HttpResponse('Erro: usuario não logado ou método inválido', status='400')
 
 
-def verificar_e_salvar_chaves_padroes(chaves_padroes, usuario):
+def verificar_e_salvar_chaves_padroes(chaves_padroes, chaves_antigas, chaves_novas, usuario):
     registros = ''
     msg_sucesso = 'Chave salva com sucesso!'
 
     for titulo_cifra, chave_padrao in chaves_padroes.items():
-        chaves_novas = [chave_nova for chave_nova in chave_padrao['chaves novas'].values()]
-        
-        for i in range(len(chave_padrao['chaves antigas'])):
+        chaves_diferentes = False
+        lista_chaves_novas = []
 
-            if chave_padrao['chaves antigas'][i] != chaves_novas[i]:
-                # A chave nova atual (mandada no input) é diferente da antiga
-                resposta_verific = chave_padrao['verificar chave'](chaves_novas)
-                if resposta_verific == True:
-                    # Se a chave for valida, salva-la e colocar no registro que ela foi salva com sucesso.
-                    usuario.update(**chave_padrao['chaves novas'])
-                    registros += f'{titulo_cifra}: {msg_sucesso}\n'
-                else:
-                    # A chave não é válida, não salva-la e colocar no registro que elá não foi salva.
-                    registros += f'{titulo_cifra}: ERRO: {resposta_verific}\n'
+        for nome_chave in chave_padrao['nome chaves']:
+            lista_chaves_novas.append(chaves_novas.get(nome_chave))
+            # Verificar se uma chave nova (depende do nome da chave) é diferente de sua antiga.
+            if str(chaves_antigas[nome_chave]) != str(chaves_novas.get(nome_chave)):
+                chaves_diferentes = True
+        
+        if chaves_diferentes:  # A chave nova atual (mandada no input) é diferente da antiga
+            resposta_verific = chave_padrao['verificar chave'](lista_chaves_novas)
+            if resposta_verific == True:
+                # Se a chave for valida, salva-la e colocar no registro que ela foi salva com sucesso.
+                usuario.update(** criar_dicionario(chave_padrao['nome chaves'], lista_chaves_novas))
+                registros += f'{titulo_cifra}: {msg_sucesso}\n'
+            else:
+                # A chave não é válida, não salva-la e colocar no registro que elá não foi salva (ERRO).
+                registros += f'{titulo_cifra}: ERRO: {resposta_verific}\n'
 
     return registros
+
+def criar_dicionario(lista_chaves, lista_valores):
+    # Retorna um dicionario com chaves definidas na lista_chaves e valores na lista_valores
+    dicionario = {}
+    for chave, valor in zip(lista_chaves, lista_valores):
+        dicionario[chave] = valor
+    return dicionario
+
 
 @ensure_csrf_cookie
 def get_user_infos(request):
