@@ -16,5 +16,15 @@ class User(AbstractUser):
 
     def serialize(self):
         return {
-            
+            'erro': False,
+            'nome_usuario': self.username,
+            'e-mail': self.email,
+            'chave_cesar_apenas_letras' : self.chave_cesar_apenas_letras,
+            'chave_cesar_varios_caracteres' : self.chave_cesar_varios_caracteres,
+            'msg_comum_subst_simples_apenas_letras' : self.msg_comum_subst_simples_apenas_letras,
+            'msg_encript_subst_simples_apenas_letras' : self.msg_encript_subst_simples_apenas_letras,
+            'msg_comum_subst_simples_varios_caracteres' : self.msg_comum_subst_simples_varios_caracteres,
+            'msg_encript_subst_simples_varios_caracteres' : self.msg_encript_subst_simples_varios_caracteres,
+            'chave_vigenere_apenas_letras' : self.chave_vigenere_apenas_letras,
+            'chave_vigenere_varios_caracteres' : self.chave_vigenere_varios_caracteres
         }

@@ -112,6 +112,29 @@ function criar_inputs_cesar_vigenere(container_id, input_id) {
     container_cifrasEperfil.append(container_inputs)
 }
 
+function criar_inputs_subst_simples(container_id) {
+    /* Cria um elemento "div" contendo os inputs/labels necessários para as chaves padrões da
+       cifra de Subst. simples (que possui 4 chaves possiveis para serem guardadas -> 2 para cada modo)*/
+    let container_subst_simples = document.createElement('div')
+    container_subst_simples.className = 'container-inputs-chaves-padroes'
+    container_subst_simples.id = container_id
+    container_subst_simples.hidden = true
+    let lista_elementos_subst_simples = []
+
+    lista_elementos_subst_simples.push(criar_titulo_modos_subst_simples('apenas letras'))
+    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem comum', 'msg_comum_subst_simples_apenas_letras', '5px'))
+    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem encriptada', 'msg_encript_subst_simples_apenas_letras', '5px'))
+
+    lista_elementos_subst_simples.push(criar_titulo_modos_subst_simples('vários caracteres'))
+    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem comum', 'msg_comum_subst_simples_varios_caracteres','5px'))
+    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem encriptada', 'msg_encript_subst_simples_varios_caracteres','5px'))
+
+    for (indice in lista_elementos_subst_simples)
+        container_subst_simples.append(lista_elementos_subst_simples[indice])
+    
+    container_cifrasEperfil.append(container_subst_simples)
+}
+
 function criar_input_padrao_chaves_padroes(titulo_label_input, input_id, pxs_margin_top) {
     // Cria um elemento "div" contendo o input e label padronizado do projeto.
     let container_input = document.createElement('div')
@@ -124,6 +147,7 @@ function criar_input_padrao_chaves_padroes(titulo_label_input, input_id, pxs_mar
     label_input.innerText = titulo_label_input
 
     let input = document.createElement('input')
+    input.value = JSON_dados_usuario[input_id]
     input.className = 'input-cifra'
     input.type = 'text'
     input.id = input_id
@@ -131,29 +155,6 @@ function criar_input_padrao_chaves_padroes(titulo_label_input, input_id, pxs_mar
     container_input.append(label_input)
     container_input.append(input)
     return container_input
-}
-
-function criar_inputs_subst_simples(container_id) {
-    /* Cria um elemento "div" contendo os inputs/labels necessários para as chaves padrões da
-       cifra de Subst. simples (que possui 4 chaves possiveis para serem guardadas -> 2 para cada modo)*/
-    let container_subst_simples = document.createElement('div')
-    container_subst_simples.className = 'container-inputs-chaves-padroes'
-    container_subst_simples.id = container_id
-    container_subst_simples.hidden = true
-    let lista_elementos_subst_simples = []
-
-    lista_elementos_subst_simples.push(criar_titulo_modos_subst_simples('apenas letras'))
-    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem comum', 'msg_comum_apenas_letras', '5px'))
-    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem encriptada', 'msg_encript_apenas_letras', '5px'))
-
-    lista_elementos_subst_simples.push(criar_titulo_modos_subst_simples('vários caracteres'))
-    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem comum', 'msg_comum_varios_caracteres','5px'))
-    lista_elementos_subst_simples.push(criar_input_padrao_chaves_padroes('letras mensagem encriptada', 'msg_encript_varios_caracteres','5px'))
-
-    for (indice in lista_elementos_subst_simples)
-        container_subst_simples.append(lista_elementos_subst_simples[indice])
-    
-    container_cifrasEperfil.append(container_subst_simples)
 }
 
 function criar_titulo_modos_subst_simples(nome_titulo) {
@@ -177,6 +178,7 @@ function criar_botoes_perfil() {
     botao_aplicar.addEventListener('click', aplicar_novas_configs_usuario)
 
     let botao_logout = criar_botao_perfil('logout')
+    botao_logout.addEventListener('click', logout)
 
     container_cifrasEperfil.append(linha_divisoria)
     container_botoes.append(botao_aplicar)

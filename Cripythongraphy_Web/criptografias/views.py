@@ -53,7 +53,12 @@ def register_view(request):
         return HttpResponse('usuário cadastrado com sucesso', status=200)
 
 def logout_view(request):
-    logout(request)
+    try:
+        logout(request)
+        return HttpResponse('Logout realizado com sucesso !', status=200)
+    except:
+        return HttpResponse('Falha ao realizar o logout', status=400)
+
 
 
 def homepage_view(request):
@@ -98,16 +103,16 @@ def update_user_infos(request):
             },
             "Substituição simples - Apenas letras": {
                 "chaves novas": {
-                    "msg_comum_subst_simples_apenas_letras" : dados.get('msg_comum_apenas_letras'),
-                    "msg_encript_subst_simples_apenas_letras" : dados.get('msg_encript_apenas_letras') 
+                    "msg_comum_subst_simples_apenas_letras" : dados.get('msg_comum_subst_simples_apenas_letras'),
+                    "msg_encript_subst_simples_apenas_letras" : dados.get('msg_encript_subst_simples_apenas_letras') 
                 },
                 "chaves antigas": [usuario[0].msg_comum_subst_simples_apenas_letras, usuario[0].msg_encript_subst_simples_apenas_letras],
                 "verificar chave": verificar_chaves_subst_simples_apenas_letras,
             },
             "Substituição simples - Vários caracteres": {
                 "chaves novas": {
-                    "msg_comum_subst_simples_varios_caracteres" : dados.get('msg_comum_varios_caracteres'),
-                    "msg_encript_subst_simples_varios_caracteres" : dados.get('msg_encript_varios_caracteres') 
+                    "msg_comum_subst_simples_varios_caracteres" : dados.get('msg_comum_subst_simples_varios_caracteres'),
+                    "msg_encript_subst_simples_varios_caracteres" : dados.get('msg_encript_subst_simples_varios_caracteres') 
                 },
                 "chaves antigas": [usuario[0].msg_comum_subst_simples_varios_caracteres, usuario[0].msg_encript_subst_simples_varios_caracteres],
                 "verificar chave": verificar_chaves_subst_simples_varios_caracteres,
@@ -140,8 +145,9 @@ def verificar_e_salvar_chaves_padroes(chaves_padroes, usuario):
     msg_sucesso = 'Chave salva com sucesso!'
 
     for titulo_cifra, chave_padrao in chaves_padroes.items():
+        chaves_novas = [chave_nova for chave_nova in chave_padrao['chaves novas'].values()]
+        
         for i in range(len(chave_padrao['chaves antigas'])):
-            chaves_novas = [chave_nova for chave_nova in chave_padrao['chaves novas'].values()]
 
             if chave_padrao['chaves antigas'][i] != chaves_novas[i]:
                 # A chave nova atual (mandada no input) é diferente da antiga
@@ -155,3 +161,9 @@ def verificar_e_salvar_chaves_padroes(chaves_padroes, usuario):
                     registros += f'{titulo_cifra}: ERRO: {resposta_verific}\n'
 
     return registros
+
+@ensure_csrf_cookie
+def get_user_infos(request):
+    if request.method == 'GET' and request.user.is_authenticated:
+        return JsonResponse(User.objects.get(pk=request.user.id).serialize(), status=200)
+    return JsonResponse({'erro': True}, status=400)

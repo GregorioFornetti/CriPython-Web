@@ -208,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
         criar_elementos_modo_CEL()
 
     document.querySelector('#botao-home').addEventListener('click', carregar_home_page)
+    coletar_infos_perfil()
+    carregar_home_page()
 
 })
 
