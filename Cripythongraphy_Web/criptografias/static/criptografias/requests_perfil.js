@@ -37,7 +37,7 @@ function logout() {
             let botao_login = document.querySelector('#botao-login');
             if (botao_login) {
                 botao_login.innerHTML = 'login';  // Atualizar o botão de login para ter o nome "login" (ao invés do nome do usuário)
-                botao_login.onclick = retorna_formulario_login;  // Ao invés de carregar a pagina de perfil, carregar a pagina de login,
+                botao_login.onclick = carregar_pagina_login;  // Ao invés de carregar a pagina de perfil, carregar a pagina de login,
             }
             document.querySelector('#user-status').innerText = '' // Marcar que o usuário não está logado
             

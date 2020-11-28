@@ -88,7 +88,7 @@ def update_user_infos(request):
         dados = json.loads(request.body)
         usuario = User.objects.filter(pk=request.user.id)
         chaves_antigas = usuario[0].serialize()
-
+        
         chaves_padroes = {
             "Cifra de César - Apenas letras": {  # Titulo da cifra - Modo da cifra
                 "nome chaves" : ['chave_cesar_apenas_letras'],  # Lista com os nomes das chaves dessa cifra e modo.

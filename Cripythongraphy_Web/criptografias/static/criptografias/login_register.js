@@ -174,12 +174,3 @@ function getCookie(name) {  // Function from Django documentation about CSRF
     }
     return cookieValue;
 }
-
-    /*
-    let botao_login = document.querySelector('#botao-login')
-    if (botao_login) {
-        botao_login.onclick = carregar_pagina_login
-    } else {
-        document.querySelector('#botao-usuario').onclick = carregar_pagina_de_perfil
-    }
-    */
