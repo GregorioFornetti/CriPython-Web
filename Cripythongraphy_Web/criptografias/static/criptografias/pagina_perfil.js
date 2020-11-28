@@ -104,8 +104,8 @@ function criar_inputs_cesar_vigenere(container_id, input_id) {
     container_inputs.id = container_id
     container_inputs.hidden = true
 
-    let input_apenas_letras = criar_input_padrao_chaves_padroes('apenas letras', `${input_id}_apenas_letras`)
-    let input_varios_caracteres = criar_input_padrao_chaves_padroes('vários caracteres', `${input_id}_varios_caracteres`)
+    let input_apenas_letras = criar_input_padrao_chaves_padroes('apenas letras', `chave_${input_id}_apenas_letras`)
+    let input_varios_caracteres = criar_input_padrao_chaves_padroes('vários caracteres', `chave_${input_id}_varios_caracteres`)
 
     container_inputs.append(input_apenas_letras)
     container_inputs.append(input_varios_caracteres)

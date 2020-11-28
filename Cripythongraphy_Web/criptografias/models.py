@@ -13,3 +13,8 @@ class User(AbstractUser):
 
     chave_vigenere_apenas_letras = models.CharField(max_length=1000, blank=True)
     chave_vigenere_varios_caracteres = models.CharField(max_length=1000, blank=True)
+
+    def serialize(self):
+        return {
+            
+        }

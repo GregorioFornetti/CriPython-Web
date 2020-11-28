@@ -5,16 +5,16 @@ function aplicar_novas_configs_usuario() {
     fetch('/update_user_infos', {
         method: 'POST',
         body: JSON.stringify({
-            'cesar_apenas_letras': document.querySelector('#cesar_apenas_letras').value,
-            'cesar_varios_caracteres': document.querySelector('#cesar_varios_caracteres').value,
+            'chave_cesar_apenas_letras': document.querySelector('#chave_cesar_apenas_letras').value,
+            'chave_cesar_varios_caracteres': document.querySelector('#chave_cesar_varios_caracteres').value,
 
             'msg_comum_apenas_letras': document.querySelector('#msg_comum_apenas_letras').value,
             'msg_encript_apenas_letras': document.querySelector('#msg_encript_apenas_letras').value,
             'msg_comum_varios_caracteres': document.querySelector('#msg_comum_varios_caracteres').value,
             'msg_encript_varios_caracteres': document.querySelector('#msg_encript_varios_caracteres').value,
 
-            'vigenere_apenas_letras': document.querySelector('#vigenere_apenas_letras').value,
-            'vigenere_varios_caracteres': document.querySelector('#vigenere_varios_caracteres').value
+            'chave_vigenere_apenas_letras': document.querySelector('#chave_vigenere_apenas_letras').value,
+            'chave_vigenere_varios_caracteres': document.querySelector('#chave_vigenere_varios_caracteres').value
         }),
         headers: {'X-CSRFToken': csrftoken}
     })

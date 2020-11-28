@@ -76,93 +76,82 @@ def homepage_view(request):
     Clique aqui</a> para acessar o repositório do github desse arquivo
     '''})
 
-string_info_final = ''
-
 @ensure_csrf_cookie
 def update_user_infos(request):
     # Salvará as novas chaves padrões, e-mail e usuario cadastrados.
-    global string_info_final
-    string_info_final = ''
-
     if request.method == 'POST' and request.user.is_authenticated:
         dados = json.loads(request.body)
-        usuario = User.objects.get(pk=request.user.id)
+        usuario = User.objects.filter(pk=request.user.id)
 
+        chaves_padroes = {
+            "Cifra de César - Apenas letras": {  # Titulo da cifra - Modo da cifra
+                # Chave: nome da variavel da chave armazenado no BD (verificar em models na classe User) da chave padrão atual.
+                # Valor: a nova chave(enviada pelo usuário) que deve ser armazenada caso seja válida.
+                "chaves novas": { "chave_cesar_apenas_letras": dados.get('chave_cesar_apenas_letras') }, 
+                "chaves antigas": [usuario[0].chave_cesar_apenas_letras],  # Chaves antigas que estavam armazenadas no BD.
+                "verificar chave": verificar_chave_cifra_de_cesar  # Função que verifica se a chave nova passada é válida.
+            },
+            "Cifra de César - Vários caracteres": {
+                "chaves novas": { "chave_cesar_varios_caracteres": dados.get('chave_cesar_varios_caracteres') },
+                "chaves antigas": [usuario[0].chave_cesar_varios_caracteres],
+                "verificar chave": verificar_chave_cifra_de_cesar,
+            },
+            "Substituição simples - Apenas letras": {
+                "chaves novas": {
+                    "msg_comum_subst_simples_apenas_letras" : dados.get('msg_comum_apenas_letras'),
+                    "msg_encript_subst_simples_apenas_letras" : dados.get('msg_encript_apenas_letras') 
+                },
+                "chaves antigas": [usuario[0].msg_comum_subst_simples_apenas_letras, usuario[0].msg_encript_subst_simples_apenas_letras],
+                "verificar chave": verificar_chaves_subst_simples_apenas_letras,
+            },
+            "Substituição simples - Vários caracteres": {
+                "chaves novas": {
+                    "msg_comum_subst_simples_varios_caracteres" : dados.get('msg_comum_varios_caracteres'),
+                    "msg_encript_subst_simples_varios_caracteres" : dados.get('msg_encript_varios_caracteres') 
+                },
+                "chaves antigas": [usuario[0].msg_comum_subst_simples_varios_caracteres, usuario[0].msg_encript_subst_simples_varios_caracteres],
+                "verificar chave": verificar_chaves_subst_simples_varios_caracteres,
+            },
+            "Cifra de Vigenère - Apenas letras": {
+                "chaves novas": { "chave_vigenere_apenas_letras": dados.get('chave_vigenere_apenas_letras') },
+                "chaves antigas": [usuario[0].chave_vigenere_apenas_letras],
+                "verificar chave": verificar_chave_cifra_de_vigenere_apenas_letras,
+            },
+            "Cifra de Vigenère - Vários caracteres": {
+                "chaves novas": { "chave_vigenere_varios_caracteres": dados.get('chave_vigenere_varios_caracteres') },
+                "chaves antigas": [usuario[0].chave_vigenere_varios_caracteres],
+                "verificar chave": verificar_chave_cifra_de_vigenere_varios_caracteres,
+            }
+        }
 
-        # Salvar nova chave padrão da Cifra de César - Apenas letras, caso nova chave cadastrada seja válida:
-        lista_chaves_novas = [dados.get('cesar_apenas_letras')]
-        lista_chaves_antigas = [usuario.chave_cesar_apenas_letras]
+        registros = verificar_e_salvar_chaves_padroes(chaves_padroes, usuario)
 
-        chave_valida = verificar_chaves('Cifra de César - Apenas letras', lista_chaves_novas, lista_chaves_antigas, verificar_chave_cifra_de_cesar)
-        if chave_valida:
-            usuario.chave_cesar_apenas_letras = dados.get('cesar_apenas_letras')
-        # Salvar nova chave padrão da Cifra de César - Vários caracteres:
-
-        lista_chaves_novas = [dados.get('cesar_varios_caracteres')]
-        lista_chaves_antigas = [usuario.chave_cesar_varios_caracteres]
-
-        chave_valida = verificar_chaves('Cifra de César - Vários caracteres', lista_chaves_novas, lista_chaves_antigas, verificar_chave_cifra_de_cesar)
-        if chave_valida:
-            usuario.chave_cesar_varios_caracteres = dados.get('cesar_varios_caracteres')
-        
-        # Salvar nova chave padrão da Cifra de Subst. Simples - Apenas letras:
-        lista_chaves_novas = [dados.get('msg_comum_apenas_letras'), dados.get('msg_encript_apenas_letras')]
-        lista_chaves_antigas = [usuario.msg_comum_subst_simples_apenas_letras, usuario.msg_encript_subst_simples_apenas_letras]
-
-        chave_valida = verificar_chaves('Substituição simples - Apenas letras', lista_chaves_novas, lista_chaves_antigas, verificar_chaves_subst_simples_apenas_letras)
-        if chave_valida:
-            usuario.msg_comum_subst_simples_apenas_letras = dados.get('msg_comum_apenas_letras')
-            usuario.msg_encript_subst_simples_apenas_letras = dados.get('msg_encript_apenas_letras')
-        
-        # Salvar nova chave padrão da Cifra de Subst. Simples - Vários caracteres:
-        lista_chaves_novas = [dados.get('msg_comum_varios_caracteres'), dados.get('msg_encript_varios_caracteres')]
-        lista_chaves_antigas = [usuario.msg_comum_subst_simples_varios_caracteres, usuario.msg_encript_subst_simples_varios_caracteres]
-
-        chave_valida = verificar_chaves('Substituição simples - Vários caracteres', lista_chaves_novas, lista_chaves_antigas, verificar_chaves_subst_simples_varios_caracteres)
-        if chave_valida:
-            usuario.msg_comum_subst_simples_varios_caracteres = dados.get('msg_comum_varios_caracteres')
-            usuario.msg_encript_subst_simples_varios_caracteres = dados.get('msg_encript_varios_caracteres')
-        
-        # Salvar nova chave padrão da Cifra de Vigenère - Apenas letras:
-        lista_chaves_novas = [dados.get('vigenere_apenas_letras')]
-        lista_chaves_antigas = [usuario.chave_vigenere_apenas_letras]
-
-        chave_valida = verificar_chaves('Cifra de Vigenère - Apenas letras', lista_chaves_novas, lista_chaves_antigas, verificar_chave_cifra_de_vigenere_apenas_letras)
-        if chave_valida:
-            usuario.chave_vigenere_apenas_letras = dados.get('vigenere_apenas_letras')
-        
-        # Salvar nova chave padrão da Cifra de Vigenère - Vários caracteres:
-        lista_chaves_novas = [dados.get('vigenere_varios_caracteres')]
-        lista_chaves_antigas = [usuario.chave_vigenere_varios_caracteres]
-
-        chave_valida = verificar_chaves('Cifra de Vigenère - Vários caracteres', lista_chaves_novas, lista_chaves_antigas,verificar_chave_cifra_de_vigenere_varios_caracteres)
-        if chave_valida:
-            usuario.chave_vigenere_varios_caracteres = dados.get('vigenere_varios_caracteres')
-
-        usuario.save()
-        if string_info_final:
-            return HttpResponse(string_info_final, status=200)
+        usuario[0].save()
+        if registros:
+            return HttpResponse(registros, status=200)
         else:
             return HttpResponse('Nenhuma configuração foi trocada !', status=200)
     
     return HttpResponse('Erro: usuario não logado ou método inválido', status='400')
 
-def verificar_chaves(msg_cifra, lista_chaves_novas, lista_chaves_antigas, verificar_nova_chave):
-    # Verifica se a chave fornecida é valida (retornando True). Atualiza, caso necessário, a mensagem final (string info final).
-    global string_info_final
+
+def verificar_e_salvar_chaves_padroes(chaves_padroes, usuario):
+    registros = ''
     msg_sucesso = 'Chave salva com sucesso!'
-    chaves_diferentes = False
 
-    for i in range(len(lista_chaves_antigas)):  # Verificar se alguma da chaves novas é diferente de sua chave antiga.
-        if lista_chaves_antigas[i] != lista_chaves_novas[i]:
-            chaves_diferentes = True
-            break
+    for titulo_cifra, chave_padrao in chaves_padroes.items():
+        for i in range(len(chave_padrao['chaves antigas'])):
+            chaves_novas = [chave_nova for chave_nova in chave_padrao['chaves novas'].values()]
 
-    if chaves_diferentes:
-        resposta_verific = verificar_nova_chave(lista_chaves_novas)
-        if resposta_verific == True:  # Chave é válida, adicionar uma mensagem de sucesso à string final e retornar True
-            string_info_final += f'{msg_cifra}: {msg_sucesso}\n'
-            return True
-        else:  # Chave inválida. Adicionar uma mensagem de falha e retornar False, não salvando a nova chave.
-            string_info_final += f'{msg_cifra}: ERRO: {resposta_verific}\n'
-    return False  # Caso não tenha nenhuma chave diferente, retorna False sem mudar string final.
+            if chave_padrao['chaves antigas'][i] != chaves_novas[i]:
+                # A chave nova atual (mandada no input) é diferente da antiga
+                resposta_verific = chave_padrao['verificar chave'](chaves_novas)
+                if resposta_verific == True:
+                    # Se a chave for valida, salva-la e colocar no registro que ela foi salva com sucesso.
+                    usuario.update(**chave_padrao['chaves novas'])
+                    registros += f'{titulo_cifra}: {msg_sucesso}\n'
+                else:
+                    # A chave não é válida, não salva-la e colocar no registro que elá não foi salva.
+                    registros += f'{titulo_cifra}: ERRO: {resposta_verific}\n'
+
+    return registros
