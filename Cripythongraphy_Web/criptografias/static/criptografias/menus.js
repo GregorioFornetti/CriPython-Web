@@ -249,9 +249,9 @@ function retorna_botao_cifras_utilit(titulo_botao, func_botao, JSON_nomes_chaves
 
     if (!JSON_nomes_chaves)
         botao.addEventListener('click', () => {
-            func_botao(false)
+            func_botao(false)  // Executar cifra utilizando chave escrita
         })
-    else
+    else  // Executar cifra usando chave padrao
         botao.addEventListener('click', () => {
             let textarea_resultado = document.querySelector('#resultado')
 

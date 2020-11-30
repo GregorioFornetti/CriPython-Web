@@ -18,8 +18,7 @@ class User(AbstractUser):
 
     def serialize(self):
         return {
-            'erro': False,
-            'nome_usuario': self.username,
+            'usuario': self.username,
             'e-mail': self.email,
             'chave_cesar_apenas_letras' : self.chave_cesar_apenas_letras,
             'chave_cesar_varios_caracteres' : self.chave_cesar_varios_caracteres,

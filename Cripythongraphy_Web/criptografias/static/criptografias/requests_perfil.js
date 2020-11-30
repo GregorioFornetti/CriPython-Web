@@ -8,6 +8,9 @@ function aplicar_novas_configs_usuario() {
     fetch('/update_user_infos', {
         method: 'POST',
         body: JSON.stringify({
+            'usuario' : document.querySelector('#usuario').value,
+            'e-mail' :  document.querySelector('#e-mail').value,
+
              // Padrao de nomenclatura: nome_da_chave_nome_da_cifra_nome_do_modo
             'chave_cesar_apenas_letras': document.querySelector('#chave_cesar_apenas_letras').value,
             'chave_cesar_varios_caracteres': document.querySelector('#chave_cesar_varios_caracteres').value,
@@ -26,6 +29,11 @@ function aplicar_novas_configs_usuario() {
     .then(data => {
         alert(data)  // Mostrar ao usuário o registro das novas informações enviadas (se elas foram salvas com sucesso ou não).
         coletar_infos_perfil()
+        .then(() => {
+            let botao_login = document.querySelector('#botao-login');
+            if (botao_login)
+                botao_login.innerHTML = JSON_dados_usuario['usuario']
+        })
     })
 }
 
@@ -51,13 +59,15 @@ function logout() {
 function coletar_infos_perfil() {
     let csrftoken = getCookie('csrftoken')
 
-    fetch('/get_user_infos', {
+    return fetch('/get_user_infos', {
         method: 'GET',
         headers: {'X-CSRFToken': csrftoken}
     })
     .then(response => response.json())
     .then(response_JSON => {
-        if (!response_JSON["erro"])
+        if (Object.keys(response_JSON).length > 0) {
             JSON_dados_usuario = response_JSON
+            return
+        }
     })
 }

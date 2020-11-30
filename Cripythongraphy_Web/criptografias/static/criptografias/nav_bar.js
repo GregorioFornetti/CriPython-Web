@@ -174,7 +174,11 @@ function retorna_botao_login_perfil() {
     botao_login_perfil.id = 'botao-login'
     let nome_usuario = document.querySelector('#user-status').innerText
 
-    if (nome_usuario) {
+    if (JSON_dados_usuario) {
+        botao_login_perfil.innerText = JSON_dados_usuario['usuario']
+        botao_login_perfil.addEventListener('click', carregar_pagina_de_perfil)
+    } else if (nome_usuario) {
+        // Se o usuário estiver logado, ao carregar a pagina pela primeira vez, cairá nessa opção
         botao_login_perfil.innerText = nome_usuario
         botao_login_perfil.addEventListener('click', carregar_pagina_de_perfil)
     } else {
@@ -215,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('resize', () => {
     if (innerWidth > TAMANHO_MAX_CEL && !modo_PC) {
-        console.log(modo_PC)
         limpar_elementos_CEL()
         criar_elementos_modo_PC()
         atualizar_menu_cifras_utilits_para_modo_PC()

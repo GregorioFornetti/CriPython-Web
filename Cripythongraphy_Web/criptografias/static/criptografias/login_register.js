@@ -151,7 +151,6 @@ function enviar_info_login() {
                 botao_login.innerHTML = nome_usuario;
                 botao_login.onclick = carregar_pagina_de_perfil;
             }
-            document.querySelector('#user-status').innerText = nome_usuario  // Marcar que o usuário está logado
             coletar_infos_perfil()
 
             carregar_home_page()

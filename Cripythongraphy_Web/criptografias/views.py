@@ -37,12 +37,17 @@ def register_view(request):
         confirmar_senha = dados.get('confirmar_senha')
         nome_usuario = dados.get('nome_usuario')
         e_mail = dados.get('e_mail')
+
         if not senha or not confirmar_senha or not nome_usuario or not e_mail:
             return HttpResponse('erro: todos os campos precisam ser preenchidos', status=400)
         if len(nome_usuario) > 20:
             return HttpResponse('erro: nome de usuário muito grande (max: 20 caracteres)', status=400)
+        if nome_usuario.find(' ') != -1:
+            return HttpResponse('erro: nome de usuário não pode conter espaços !')
         if len(e_mail) > 500:
             return HttpResponse('erro: e-mail muito grande (max: 500 caracteres)', status=400)
+        if e_mail.find(' ') != -1:
+            return HttpResponse('erro: e-mail não pode conter espaços !')
         if senha != confirmar_senha:
             return HttpResponse('erro: senhas não batem', status=400)
         try:
@@ -64,7 +69,7 @@ def logout_view(request):
 def homepage_view(request):
     return JsonResponse({
     'Introdução': '''
-    Cripythongraphy-web é a versão web de um projeto sobre criptografia que tem o intuito de traduzir ou encriptar mensagens.
+    CriPython-web é a versão web de um projeto sobre criptografia que tem o intuito de traduzir ou encriptar mensagens.
     O usuário que estiver usando o programa tem liberdade para escolher uma das cifras disponíveis e utiliza-la
     para encriptar/traduzir um texto, podendo ver na prática como que funcionam algumas cifras. Além disso,
     nesse programa existem os utilitários, que são implementações que tentam desvendar uma mensagem encriptada
@@ -73,12 +78,13 @@ def homepage_view(request):
 
     'Adicionais da versão web':'''
     Na versão web, diferente da versão desktop, é possível cadastrar uma conta para poder gravar alguns dados, como por exemplo
-    chaves padrões (que podem ser utilizadas para encriptar ou traduzir mensagens sem precisar escrever novamente a chave), temas
-    e idiomas. Ao acessar novamente sua conta, ou acessar em um computador diferente, seus dados continuarão salvos !''',
+    chaves padrões (que podem ser utilizadas para encriptar ou traduzir mensagens sem precisar escrever novamente a chave). 
+    Ao acessar novamente sua conta, ou acessar em um computador diferente, seus dados continuarão salvos !''',
 
     'Outras informações': '''
-    Caso tenha interesse em conhecer a versão aplicativo desktop do Cripythongraphy, <a href='https://github.com/GregorioFornetti/Cripythongrafia'>
-    Clique aqui</a> para acessar o repositório do github desse arquivo
+    Caso tenha interesse em conhecer a versão desktop do CriPython, <a href='https://github.com/GregorioFornetti/Cripythongrafia'>
+    Clique aqui</a> para acessar o repositório do github desse arquivo. Há também uma série de tutorias explicando cada cifra implementada
+    no programa, basta <a href='https://www.youtube.com/watch?v=FabgIHcBN3Y&list=PLN4MpuNjcYOzP4rhdNpoIJJ5VHyNiQzaI'>clicar aqui</a> para acessar a playlist de tutoriais no YouTube.
     '''})
 
 @ensure_csrf_cookie
@@ -88,7 +94,32 @@ def update_user_infos(request):
         dados = json.loads(request.body)
         usuario = User.objects.filter(pk=request.user.id)
         chaves_antigas = usuario[0].serialize()
+        registros = ''
+
+        # Cadastrar novo nome de usuário se for válido e diferente do antigo armazenado no BD
+        try:
+            if dados.get('usuario') != usuario[0].username:
+                if len(dados.get('usuario')) > 20 or len(dados.get('usuario')) == 0:
+                    registros += 'Erro: novo nome de usuário inválido !\n'
+                elif dados.get('usuario').find(' ') > -1:
+                    registros += 'Erro: nome de usuário não pode conter espaços !\n'
+                else:
+                    usuario.update(username=dados.get('usuario'))
+                    registros += 'Novo nome de usuário cadastrado com sucesso\n'
+        except:
+            registros += 'Erro: nome de usuário já existente\n'
+            
+        # Cadastrar email se for válido e diferente do antigo armazenado no BD
+        if dados.get('e-mail') != usuario[0].email:
+            if len(dados.get('e-mail')) > 500 or len(dados.get('e-mail')) == 0:
+                registros += 'Erro: novo e-mail inválido !\n'
+            elif dados.get('e-mail').find(' ') > -1:
+                registros += 'Erro: e-mail não pode conter espaços !\n'
+            else:
+                usuario.update(email=dados.get('e-mail'))
+                registros += 'Novo e-mail cadastrado com sucesso\n'
         
+        # Salvando chaves padrões
         chaves_padroes = {
             "Cifra de César - Apenas letras": {  # Titulo da cifra - Modo da cifra
                 "nome chaves" : ['chave_cesar_apenas_letras'],  # Lista com os nomes das chaves dessa cifra e modo.
@@ -115,8 +146,7 @@ def update_user_infos(request):
                 "verificar chave": verificar_chave_cifra_de_vigenere_varios_caracteres,
             }
         }
-
-        registros = verificar_e_salvar_chaves_padroes(chaves_padroes, chaves_antigas, dados, usuario)
+        registros += verificar_e_salvar_chaves_padroes(chaves_padroes, chaves_antigas, dados, usuario)
 
         usuario[0].save()
         if registros:
@@ -165,4 +195,4 @@ def criar_dicionario(lista_chaves, lista_valores):
 def get_user_infos(request):
     if request.method == 'GET' and request.user.is_authenticated:
         return JsonResponse(User.objects.get(pk=request.user.id).serialize(), status=200)
-    return JsonResponse({'erro': True}, status=400)
+    return JsonResponse({}, status=400)

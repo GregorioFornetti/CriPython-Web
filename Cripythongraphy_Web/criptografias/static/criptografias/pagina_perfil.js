@@ -41,6 +41,8 @@ function criar_input_dado_usuario(titulo_input) {
     let input = document.createElement('input')
     input.className = 'input-cifra'
     input.type = 'text'
+    input.value = JSON_dados_usuario[titulo_input]
+    input.id = titulo_input
     container_input.append(input)
 
     container_dado_usuario.append(label_input)
@@ -163,7 +165,6 @@ function criar_titulo_modos_subst_simples(nome_titulo) {
     titulo.innerText = nome_titulo
     return titulo
 }
-
 
 function criar_botoes_perfil() {
     // Criando uma linha branca que separa os inputs e menu das chaves padrões dos botões.
