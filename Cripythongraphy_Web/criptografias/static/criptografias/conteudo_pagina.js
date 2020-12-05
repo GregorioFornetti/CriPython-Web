@@ -35,12 +35,6 @@ function carregar_textos_pagina(textos_json) {
     }
 }
 
-function carregar_pagina_login() {
-    limpar_containers()
-    retorna_formulario_login()
-}
-
-
 function limpar_containers() {
     let container_cifraEperfil = document.querySelector('.container-cifrasEperfil')
     container_cifraEperfil.innerHTML = ''

@@ -24,18 +24,22 @@ function criar_string_opcoes_radio(lista_names) {
     return string_info_final
 }
 
+function retorna_opcao_cifra(nome_radio) {
+    let lista_radios_atual = document.getElementsByName(nome_radio)
+    
+    for (let i = 0; i < lista_radios_atual.length; i++)
+        if (lista_radios_atual[i].checked)
+            return lista_radios_atual[i].dataset.nome_opcao
+}
 
-function executar_cifra_menu_padrao_atual(lista_names, JSON_funcoes, JSON_chaves) {
+function executar_cifra_menu_padrao_atual(lista_names, JSON_funcoes, lista_chaves) {
     /* Essa função pegará o codigo binario das opcoes radio passada na lista names e executará
     a função dentro de JSON_funcoes que tiver a chave igual ao codigo binário atual */
     let codigo_bin_radio = criar_string_opcoes_radio(lista_names)
     
-    if (JSON_chaves) {
-        var lista_bin_radio = codigo_bin_radio.split('-')
-        var lista_chaves = JSON_chaves[lista_bin_radio[lista_bin_radio.length - 1]]
-    } else {
+    if (!lista_chaves) {
         var elementos_chaves = document.querySelectorAll('#chave')
-        var lista_chaves = []
+        lista_chaves = []
         for (let i = 0; i < elementos_chaves.length; i++)
             lista_chaves.push(elementos_chaves[i].value)
     }

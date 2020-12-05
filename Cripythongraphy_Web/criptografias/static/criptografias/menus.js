@@ -258,20 +258,18 @@ function retorna_botao_cifras_utilit(titulo_botao, func_botao, JSON_nomes_chaves
             if (!JSON_dados_usuario)
                 textarea_resultado.value = 'Você precisa estar logado para poder usar essa opção !'
             else {
-                let JSON_chaves = {}
-                for (nome_opcao in JSON_nomes_chaves) {
-                    JSON_chaves[nome_opcao] = []
+                let lista_chaves = []
+                let nome_opcao = retorna_opcao_cifra('opcoes')  // Coletar o modo de cifra selecionado pelo usuario
 
-                    for (let i = 0; i < JSON_nomes_chaves[nome_opcao].length; i++) {
-                        JSON_chaves[nome_opcao].push(JSON_dados_usuario[JSON_nomes_chaves[nome_opcao][i]])
+                for (let i = 0; i < JSON_nomes_chaves[nome_opcao].length; i++) {
+                    lista_chaves.push(JSON_dados_usuario[JSON_nomes_chaves[nome_opcao][i]])
 
-                        if (JSON_dados_usuario[JSON_nomes_chaves[nome_opcao][i]] == 0 || JSON_dados_usuario[JSON_nomes_chaves[nome_opcao][i]] == '') {
-                            textarea_resultado.value = 'Você precisa definir uma chave padrão válida na pagina de perfil para usar essa opção !'
-                            return
-                        }
+                    if (JSON_dados_usuario[JSON_nomes_chaves[nome_opcao][i]] == 0 || JSON_dados_usuario[JSON_nomes_chaves[nome_opcao][i]] == '') {
+                        textarea_resultado.value = 'Você precisa definir uma chave padrão válida na pagina de perfil para usar essa opção !'
+                        return
                     }
                 }
-                func_botao(JSON_chaves)
+                func_botao(lista_chaves)
             }
         })
 
